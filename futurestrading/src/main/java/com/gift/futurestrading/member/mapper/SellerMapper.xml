@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gift.futurestrading.member.mapper.SellerMapper">
+
+	<!-- 판매자 마이페이지 회원정보 수정처리를 위한 update -->
+	<update id="updateSellerMypageInformation" parameterType="com.gift.futurestrading.member.vo.SellerMypageVo">
+		UPDATE seller
+		SET
+			seller_email=#{sellerEmail}
+			, seller_address_post_code=#{sellerAddressPostCode}
+			, seller_address_road=#{sellerAddressRoad}
+			, seller_address_detail=#{sellerAddressDetail}
+			, seller_corporate_name=#{sellerCorporateName}
+			, seller_phone=#{sellerPhone}
+		WHERE
+			seller_id_pk=#{sellerIdPk}	
+	</update>
 	
 	<!-- 회원수정 폼으로 이동하기위해 id, password가 일치하는지 알아보기위한 select -->
 	<select id="selectIdPwForUpdate" parameterType="map" resultType="com.gift.futurestrading.member.vo.SellerMypageVo">

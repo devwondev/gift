@@ -29,6 +29,18 @@ import com.gift.futurestrading.member.vo.SellerRequestVo;
 public class SellerService {
 	@Autowired
 	private SellerMapper sellerMapper;
+	
+	/**
+	 * 화면에서 입력 받은 데이터를 저장한 VO를 파라미터로 해당 멤버의 개인정보를 수정하는 mapper계층의 메서드 호출
+	 * @author 양진선
+	 * @param sellerMypageVo
+	 * @since JDK1.8
+	 */
+	public void updateSellerInformation(SellerMypageVo sellerMypageVo) {
+		System.out.println("ConsumerService.updateSellerInformation() 호출");
+		int returnValue = sellerMapper.updateSellerMypageInformation(sellerMypageVo);
+		System.out.println(returnValue+" <---returnValue");
+	}
 
 	/**
 	 * 회원수정 폼으로 이동하기위해 사용자가 입력한 id, password가 일치하는지 알아보기위한 메서드를 호출한다.

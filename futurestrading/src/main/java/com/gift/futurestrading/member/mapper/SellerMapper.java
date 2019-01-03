@@ -10,6 +10,9 @@ import com.gift.futurestrading.member.vo.SellerMypageVo;
 @Mapper
 public interface SellerMapper {
 	
+	/* 판매자 마이페이지 회원정보 수정처리를 위한 update */
+	int updateSellerMypageInformation(SellerMypageVo sellerMypageVo);
+	
 	/* 회원수정 폼으로 이동하기위해 id, password가 일치하는지 알아보기위한 select */
 	List<SellerMypageVo> selectIdPwForUpdate(HashMap<String, Object> sellerMypageIdPw);
 	

@@ -30,9 +30,42 @@ public class SellerController {
 	@Autowired
 	private SellerService sellerService;
 	
+	
+	/**
+	 * 판매자 마이페이지에서 수정할 정보를 받아 해당 멤버의 개인정보를 수정해주는 service계층의 메서드 호출
+	 * @author 양진선
+	 * @param sellerMypageVo, session, model
+	 * @return returnView
+	 * @since JDK1.8
+	 */
+	@RequestMapping(value="/seller/mypage/information/modify", method=RequestMethod.POST)
+	public String modifySellerInformation(SellerMypageVo sellerMypageVo, HttpSession session, Model model) {
+		System.out.println("SellerController.modifySellerInformation() 호출");
+		/* 랜더링할 뷰의 주소를 저장할 변수 */
+		String returnView = null;
+		
+		if(session.getAttribute("sessionLoginMember") != null) {		// session 존재할 때
+			System.out.println("session 존재할 때");
+			/* service 계층의 메서드 호출 후, 리턴값 출력 */
+			sellerService.updateSellerInformation(sellerMypageVo);
+			
+			/* 랜더링 할 뷰로 모델 전달 */
+			model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));		
+			returnView = "index";
+		} else {		// session 존재하지 않을 때
+			System.out.println("session 존재하지 않을 때");
+			returnView = "index";
+		}	
+		return returnView;
+	}
+	
+	
+	
+	
+	
 	/**
 	 * 회원수정 폼으로 이동하기위해 사용자가 입력한 id, password가 일치하는지 알아보기위한 메서드를 호출한다.
-	 * 
+	 * @author 양진선
 	 * @param mypageId, mypagePw, session, model
 	 * @return returnView
 	 * @since JDK1.8
@@ -54,20 +87,22 @@ public class SellerController {
 			/* service 계층의 메서드 호출 후, 리턴값 출력 */
 			List<SellerMypageVo> returnValue = sellerService.selectIdPwForUpdate(sellerMypageIdPw);
 			System.out.println(returnValue + " <---returnValue");
+			int countReturnValue = returnValue.size();
 			
 			/* returnValue에 따라 회원수정 폼으로 이동할 수 있냐, 없냐를 결정 */
-			if(returnValue != null) {
+			if(countReturnValue != 0) {
 				System.out.println("화면에서 입력한 아이디, 비밀번호 일치");			
 				/* 랜더링 할 뷰로 모델 전달 */
 				model.addAttribute("sellerMypageInformation", returnValue.get(0));
 				model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
 				returnView = "member/seller/getMemberSellerMypage";	
 			} else {
-				System.out.println("화면에서 입력한 아이디, 비밀번호 불일치");		
-				// returnView = "member/seller/mypage";
+				System.out.println("화면에서 입력한 아이디, 비밀번호 불일치");	
+				model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
+				returnView = "member/seller/getMemberSellerMypage";
 			}	
-		} else {
-			System.out.println("session 존재하지 않을 때");		// session 존재하지 않을 때
+		} else {		// session 존재하지 않을 때
+			System.out.println("session 존재하지 않을 때");
 			returnView = "index";
 		}		
 		return returnView;
@@ -76,8 +111,7 @@ public class SellerController {
 	/**
 	 * 해당 url로 요청이 들어왔을 때, 판매자 계정관리뷰로 랜더링 해준다.
 	 * @author 양진선
-	 * @param session
-	 * @param model
+	 * @param session, model
 	 * @return returnView
 	 * @since JDK1.8
 	 */
