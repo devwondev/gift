@@ -20,8 +20,8 @@
 			AND (date(sign_date) <![CDATA[>=]]> #{startDate} AND date(sign_date) <![CDATA[<=]]> #{endDate}) 
 	</select>
 	
-	<!-- 체결내역 select -->
-	<select id="selectSignDetail" resultType="com.gift.futurestrading.member.vo.ConsumerSignDetailVo">
+	<!-- 체결내역 select(페이징) -->
+	<select id="selectSignList" parameterType="map" resultType="com.gift.futurestrading.member.vo.ConsumerSignDetailVo">
 		SELECT sign_pk as signPk
 			, fk_order_buy__sign as fkOrderBuySign
 			, fk_seller__sign as fkSellerSign
@@ -35,6 +35,12 @@
 			, sign_futures_trade_end_date as signFuturesTradeEndDate
 		FROM sign
 		WHERE fk_consumer__sign = #{getId}
+		LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	
+	<!-- 구매자 체결 전체 행을 구하기위한 select -->
+	<select id="selectSignAllCount" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM sign where fk_consumer__sign = #{getId}
 	</select>
 	
 	<!-- 문자  + 숫자 조합의 primary key에서 숫자를 가져오기위한(기본키 자동증가 구현을 위해) select -->

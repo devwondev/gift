@@ -14,8 +14,11 @@ public interface ConsumerMapper {
 	/* 구매자 날짜별 체결내역 select*/
 	List<ConsumerSignDetailVo> selectSignSearch(String startDate, String endDate, String getId);
 	
-	/* 구매자 체결내역 select*/
-	List<ConsumerSignDetailVo> selectSignDetail(String getId);
+	/* 구매자 체결내역 select(페이징)*/
+	List<ConsumerSignDetailVo> selectSignList(HashMap<String, Object> map);
+	
+	/* 구매자 체결내역 전체행을  select*/
+	int selectSignAllCount(String getId);
 	
 	/* 문자  + 숫자 조합의 primary key에서 숫자를 가져오기위한(기본키값 자동증가 구현을 위해) select */
 	Integer selectPkOfAccountConsumer();

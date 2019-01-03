@@ -21,11 +21,11 @@
 			});
 			$(".nav-tabs a.a2").click(function(e){
 				$(this).tab('show');
-				$("#wallet-tab-history").load('/consumer/get/sign/detail');
+				$("#wallet-tab-history").load('/consumer/get/sign/list');
 				e.preventDefault();
 			});
 			$(".dropdown-menu a.a2").click(function(e){
-				$("#wallet-tab-history").load('/consumer/get/sign/detail');
+				$("#wallet-tab-history").load('/consumer/get/sign/list');
 				e.preventDefault();
 			});
         	$(".nav-tabs a.a3").click(function(e){
@@ -48,12 +48,12 @@
             <div class="col-md-9">
                 <div class="mypage-content tab-content">
                   	<!-- 자산 현황 -->
-                    <div id="wallet-tab-property" class="tab-pane active">
+                    <div id="wallet-tab-property" class="tab-pane">
                         <h2>자산 현황</h2>
                     </div>
                 	<!-- 체결내역 -->
                     <div id="wallet-tab-history" class="tab-pane">
-                        <div th:replace="member/consumer/getSignDetail :: mypage-content-member-remove">
+                        <div th:replace="member/consumer/getSignList :: mypage-content-member-remove">
                 		</div>
                     </div>
                     <!-- 입금 -->

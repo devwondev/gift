@@ -99,7 +99,7 @@
 				</tr>
 			</thead>
 			<tbody id="firstList">
-				<tr th:each="list : ${signDetail}">
+				<tr th:each="list : ${signList}">
 					<td th:text="${list.signPk}"></td>
 					<td th:text="${list.fkOrderBuySign}"></td>
 					<td th:text="${list.fkSellerSign}"></td>
@@ -117,6 +117,17 @@
 				<tr></tr>
 			</tfoot>
 		</table>
+		<ul class="pagination justify-content-center">
+	 		<li th:if="${pageMaker.prev} == true" class="page-item">
+            	<a class="page-link" th:href="@{/consumer/get/sign/list(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum})}">&laquo;</a>
+        	</li>
+            <li class="page-item" th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"  th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+            	<a class="page-link" th:href="@{/consumer/get/sign/list(page=${idx},perPageNum=${pageMaker.cri.perPageNum})}" th:text="${idx}"></a>
+            </li>
+            <li class="page-item" th:if="${pageMaker.next} == true and ${pageMaker.endPage >= 0}">
+            	<a class="page-link" th:href="@{/consumer/get/sign/list(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum})}">&raquo;</a>
+            </li>
+		</ul>
 		</div>
 </div>
 </html>

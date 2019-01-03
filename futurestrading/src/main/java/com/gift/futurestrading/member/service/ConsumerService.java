@@ -12,6 +12,7 @@ import com.gift.futurestrading.member.vo.AccountOfConsumerRequestVo;
 import com.gift.futurestrading.member.vo.ConsumerMypageVo;
 import com.gift.futurestrading.member.vo.ConsumerRequestVo;
 import com.gift.futurestrading.member.vo.ConsumerSignDetailVo;
+import com.gift.futurestrading.page.vo.Criteria;
 
 @Service
 public class ConsumerService {
@@ -38,10 +39,27 @@ public class ConsumerService {
 	 * @return consumerSignDetailVo
 	 * @since JDK1.8
 	 */
-	public List<ConsumerSignDetailVo> getSignDetail(String getId) {
+	public List<ConsumerSignDetailVo> getSignDetail(Criteria cri, String getId) {
 		System.out.println("ConsumerService.getSignDetail() 호출");
-		List<ConsumerSignDetailVo> consumerSignDetailVo = consumerMapper.selectSignDetail(getId);
-		return consumerSignDetailVo;
+		HashMap<String , Object> map = new HashMap<String, Object>();
+		map.put("getId", getId);
+		map.put("pageStart", cri.getPageStart());
+		map.put("perPageNum", cri.getPerPageNum());
+		List<ConsumerSignDetailVo> consumerSignList = consumerMapper.selectSignList(map);
+		return consumerSignList;
+	}
+	
+	/**
+	 * 구매자 체결내역 전체 행을 구하는 메서드 호출
+	 * 
+	 * @param getId
+	 * @return totalCount
+	 * @since JDK1.8
+	 */
+	public int getSignAllCount(String getId) {
+		System.out.println("SampleService.getSignAllCount() 호출");
+		int totalCount = consumerMapper.selectSignAllCount(getId);
+		return totalCount;
 	}
 	
 	/**

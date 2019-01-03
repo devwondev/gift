@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,11 +22,14 @@ import com.gift.futurestrading.member.vo.AccountOfConsumerRequestVo;
 import com.gift.futurestrading.member.vo.ConsumerMypageVo;
 import com.gift.futurestrading.member.vo.ConsumerRequestVo;
 import com.gift.futurestrading.member.vo.ConsumerSignDetailVo;
+import com.gift.futurestrading.page.vo.Criteria;
+import com.gift.futurestrading.page.vo.PageMaker;
 
 @Controller
 public class ConsumerController {
 	@Autowired
 	private ConsumerService consumerService;
+	
 	/**
 	 *  해당 url로 요청이 들어왔을 때(ajax), 날짜별 데이터를 보낸다.
 	 * 
@@ -57,15 +61,19 @@ public class ConsumerController {
 	 * @return member/consumer/getSignDetail
 	 * @since JDK1.8
 	 */
-	@RequestMapping(value="/consumer/get/sign/detail", method=RequestMethod.GET)
-	public String getSignDetail(HttpSession session, Model model) {
-		System.out.println("ConsumerController.getSignDetail() 호출");
+	@RequestMapping(value="/consumer/get/sign/list", method=RequestMethod.GET)
+	public String getSignList(@ModelAttribute("cri") Criteria cri, HttpSession session, Model model) {
+		System.out.println("ConsumerController.getSignList() 호출");
 		model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
 		System.out.println(session.getAttribute("sessionLoginId")+ "<---- getId");
 		String getId = (String)session.getAttribute("sessionLoginId");
-		List<ConsumerSignDetailVo> signDetailList = consumerService.getSignDetail(getId);
-		model.addAttribute("signDetail", signDetailList);
-		return "member/consumer/getSignDetail";
+		List<ConsumerSignDetailVo> signList = consumerService.getSignDetail(cri, getId);
+		model.addAttribute("signList", signList);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(consumerService.getSignAllCount(getId));
+		model.addAttribute("pageMaker", pageMaker);
+		return "member/consumer/getSignList";
 	}
 	
 	/**
