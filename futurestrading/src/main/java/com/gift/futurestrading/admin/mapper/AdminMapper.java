@@ -11,6 +11,8 @@ import com.gift.futurestrading.member.vo.ConsumerVo;
 import com.gift.futurestrading.member.vo.SellerFileVo;
 import com.gift.futurestrading.member.vo.SellerVo;
 import com.gift.futurestrading.page.vo.Criteria;
+import com.gift.futurestrading.sign.vo.OrderBuyVo;
+import com.gift.futurestrading.sign.vo.OrderSellVo;
 @Mapper
 public interface AdminMapper {
 	/*관리자 비밀번호 체크*/
@@ -42,5 +44,13 @@ public interface AdminMapper {
 	/*판매자 서류업로드조회(한명)하기위한 select*/
 	SellerFileVo selectSellerDocumentOne(SellerVo sellerVo);
 	/*판매자 서류업로드조회 후 승인하기위한 update*/
-	int updateSellerRightCheck(HashMap<String, Object> map);
+	int updateSellerRightCheck(HashMap<String, Object> map); 
+	/*매수주문리스트 조회하기 위한 select*/
+	List<OrderBuyVo> selectOrderBuyAll(Criteria cri);
+	/*매수주문리스트 전체 행 구하기 위한 select*/
+	int selectOrderBuyAllCount();
+	/*매도주문리스트 조회하기 위한 select*/
+	List<OrderSellVo> selectOrderSellAll(Criteria cri);
+	/*매도주문리스트 전체 행 구하기 위한 select*/
+	int selectOrderSellAllCount();
 }

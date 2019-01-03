@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<!-- config  -->
+<head th:replace="layout/config :: configFragment"></head>
+
+<!-- header -->
+<header th:replace="layout/header :: headerFragment"></header>
+<div style="margin-left: -400px;">
+<div class="container mypage">
+     <div class="row">
+       	<!-- 탭메뉴 -->
+		<div class="col-md-3 mypage-nav">
+			<ul class="nav flex-column">
+			    <li class="nav-item">
+			      <a class="nav-link" id="nav-order-buy" th:href="@{/admin/get/order/buy/all}">매수주문관리</a>
+			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" id="nav-order-sell" th:href="@{/admin/get/order/sell/all}">매도주문관리</a>
+			    </li>
+			</ul>
+		</div>
+		<!-- 탭컨텐츠 -->
+		<!-- 주문관리 content -->
+		<div class="col-md-9">
+			<div class="mypage-content tab-content">
+				<div id="admin-tab-order-buy" class="tab-pane" data-toggle="tab">
+				    <div layout:fragment="tabContentOrderBuy"></div>
+				</div>
+				<div id="admin-tab-order-sell" class="tab-pane">
+					<div layout:fragment="tabContentOrderSell"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- footer -->
+<footer th:replace="layout/footer :: footerFragment"></footer>
+
+</html>

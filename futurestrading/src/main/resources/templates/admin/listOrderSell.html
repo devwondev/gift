@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	data-layout-decorate="~{layout/adminOrderTabMenuLayout}">
+<th:block layout:fragment="css">
+	<style>
+.table tr td {
+	font-size: 9pt;
+	padding: 3px;
+	margin: 0px;
+}
+
+.list {
+	width: 1400px;
+	margin: auto;
+	text-align: center;
+}
+
+.blank {
+	margin-top: 100px;
+}
+
+.title-style {
+	font-size: 14pt;
+	font-weight: 300;
+	color: #404040;
+	border-bottom: 1px solid #e0e2e4;
+	padding-bottom: 10px;
+	margin-bottom: 40px;
+}
+
+.content-style {
+	font-size: 12pt;
+	font-weight: 200;
+	color: #404040;
+	padding-bottom: 10px;
+	margin-bottom: 40px;
+}
+
+table.order-data-table {
+	font-size: 10pt;
+	font-weight: 100;
+	width: 100%;
+	padding: 0;
+	word-break: keep-all;
+}
+
+table.order-data-table th, table.order-data-table td {
+	border: 1px solid #e0e2e4;
+	padding: 10px;
+	color: #404040;
+}
+
+ul.pagination li.page-item a {
+	border: 1px solid #ccc !important;
+	border-radius: 0 !important;
+	padding: 5px 10px;
+	font-size: 8pt;
+}
+
+ul.pagination li.page-item.active a {
+	background-color: #3d90e2;
+	border: 1px solid #3d90e2 !important;
+}
+</style>
+</th:block>
+<th:block layout:fragment="script">
+	<script type="text/javascript">
+		$(document).ready(function(){
+			/* side menu */
+			$("#nav-order-sell").addClass("active");
+			$("#admin-tab-order-sell").addClass("active");
+	    });
+	</script>
+</th:block>
+<th:block layout:fragment="tabContentOrderSell" class="main-box container">
+	<h2 class="title-style">매도주문 목록</h2>
+	<div class="content-style" align="center">미체결 상태의 주문목록입니다.</div>
+	<table class="order-data-table list">
+		<tr>
+			<th>매도주문번호</th>
+			<th>아이디</th>
+			<th>매도방법</th>
+			<th>수량</th>
+			<th>금액</th>
+			<th>주문날짜</th>
+			<th>최종결제날짜(예상)</th>
+		</tr>
+		<tr th:each="list : ${orderSellList}">
+			<td th:text="${list.orderSellPk}"></td>
+			<td th:text="${list.fkSellerOrderSell}"></td>
+			<td th:text="${list.orderSellMethod}"></td>
+			<td th:text="${list.orderSellAmount}"></td>
+			<td th:text="${list.orderSellPerPrice}"></td>
+			<td th:text="${list.orderSellDate}"></td>
+			<td th:text="${list.orderSellFinalPayDate}"></td>
+		</tr>
+	</table>
+	<p class="blank"></p>
+	<ul class="pagination justify-content-center">
+		<li th:if="${pageMaker.prev} == true" class="page-item"><a
+			class="page-link"
+			th:href="@{/admin/get/order/sell/all(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum})}">&laquo;</a>
+		</li>
+		<li class="page-item"
+			th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"
+			th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+			<a class="page-link"
+			th:href="@{/admin/get/order/sell/all(page=${idx},perPageNum=${pageMaker.cri.perPageNum})}"
+			th:text="${idx}"></a>
+		</li>
+		<li class="page-item"
+			th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+			<a class="page-link"
+			th:href="@{/admin/get/order/sell/all(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum})}">&raquo;</a>
+		</li>
+	</ul>
+</th:block>
+</html>

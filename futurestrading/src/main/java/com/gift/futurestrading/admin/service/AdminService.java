@@ -13,6 +13,8 @@ import com.gift.futurestrading.member.vo.ConsumerVo;
 import com.gift.futurestrading.member.vo.SellerFileVo;
 import com.gift.futurestrading.member.vo.SellerVo;
 import com.gift.futurestrading.page.vo.Criteria;
+import com.gift.futurestrading.sign.vo.OrderBuyVo;
+import com.gift.futurestrading.sign.vo.OrderSellVo;
 
 @Service
 public class AdminService {
@@ -148,7 +150,7 @@ public class AdminService {
 	}
 	/** 구매자 계좌조회
 	 * 구매자 계좌조회(한명)하기위한 select
-	 * 
+	 * @param ConsumerVo consumerVo
 	 * @return accountConsumer
 	 * @since JDK1.8
 	 */
@@ -159,7 +161,7 @@ public class AdminService {
 	}
 	/** 판매자 서류업로드조회
 	 * 판매자 서류업로드조회(한명)하기위한 select
-	 * 
+	 * @param SellerVo sellerVo
 	 * @return sellerFile
 	 * @since JDK1.8
 	 */
@@ -170,8 +172,8 @@ public class AdminService {
 	}
 	/** 판매자 승인
 	 * 판매자 서류업로드조회 후 승인하기위한 update
-	 * 
-	 * @return 
+	 * @param SellerVo sellerVo
+	 * @return sellerCheck
 	 * @since JDK1.8
 	 */
 	public int modifySellerRightCheck(SellerVo sellerVo) {
@@ -183,5 +185,47 @@ public class AdminService {
 		System.out.println(sellerVo.getSellerAdmitAdmin()+"<--sellerVo.getSellerAdmitAdmin()");
  		int sellerCheck = adminMapper.updateSellerRightCheck(map);
 		return sellerCheck;
+	}
+	/** 매수주문 리스트
+	 * 매수주문 리스트 select
+	 * @param Criteria cri
+	 * @return orderBuyList
+	 * @since JDK1.8
+	 */
+	public List<OrderBuyVo> getOrderBuyAll(Criteria cri){
+		System.out.println("AdminService.getOrderBuyAll() 호출");
+		List<OrderBuyVo> orderBuyList = adminMapper.selectOrderBuyAll(cri);
+		return orderBuyList;
+	}
+	/** 매수주문 리스트
+	 * 매수주문 전체 행 갯수 select
+	 * 
+	 * @return adminMapper.selectOrderBuyAllCount()
+	 * @since JDK1.8
+	 */
+	public int getOrderBuyAllCount() {
+		System.out.println("AdminService.getOrderBuyAllCount() 호출");
+		return adminMapper.selectOrderBuyAllCount();
+	}
+	/** 매도주문 리스트
+	 * 매도주문 리스트 select
+	 * @param Criteria cri
+	 * @return orderSellList
+	 * @since JDK1.8
+	 */
+	public List<OrderSellVo> getOrderSellAll(Criteria cri){
+		System.out.println("AdminService.getOrderSellAll() 호출");
+		List<OrderSellVo> orderSellList = adminMapper.selectOrderSellAll(cri);
+		return orderSellList;
+	}
+	/** 매도주문 리스트
+	 * 매도주문 전체 행 갯수 select
+	 * 
+	 * @return adminMapper.selectOrderSellAllCount()
+	 * @since JDK1.8
+	 */
+	public int getOrderSellAllCount() {
+		System.out.println("AdminService.getOrderSellAllCount() 호출");
+		return adminMapper.selectOrderSellAllCount();
 	}
 }

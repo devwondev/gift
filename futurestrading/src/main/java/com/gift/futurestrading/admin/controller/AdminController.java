@@ -24,6 +24,8 @@ import com.gift.futurestrading.member.vo.SellerFileVo;
 import com.gift.futurestrading.member.vo.SellerVo;
 import com.gift.futurestrading.page.vo.Criteria;
 import com.gift.futurestrading.page.vo.PageMaker;
+import com.gift.futurestrading.sign.vo.OrderBuyVo;
+import com.gift.futurestrading.sign.vo.OrderSellVo;
 
 
 @Controller
@@ -204,11 +206,14 @@ public class AdminController {
 	@RequestMapping(value="/admin/get/consumer/all", method=RequestMethod.GET)
 	public String getConsumerAll(@ModelAttribute("cri") Criteria cri, Model model, HttpSession session) {
 		System.out.println("AdminController.getConsumerAll() 호출");
+		/*세션유지*/
 		model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
+		/*보여줄 목록*/
 		List<ConsumerVo> consumerList = adminService.getConsumerAll(cri);
-		model.addAttribute("consumerList", consumerList);
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
+		model.addAttribute("consumerList", consumerList);	
+		/*페이징*/
+		PageMaker pageMaker = new PageMaker();	
+		pageMaker.setCri(cri);	
 		pageMaker.setTotalCount(adminService.getConsumerAllCount());
 		model.addAttribute("pageMaker", pageMaker);
 		return "admin/listConsumer";
@@ -222,9 +227,12 @@ public class AdminController {
 	@RequestMapping(value="/admin/get/seller/all", method=RequestMethod.GET)
 	public String getSellerAll(@ModelAttribute("cri") Criteria cri, Model model, HttpSession session) {
 		System.out.println("AdminController.getSellerAll() 호출");
+		/*세션유지*/
 		model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
+		/*보여줄 목록*/
 		List<SellerVo> sellerList = adminService.getSellerAll(cri);
 		model.addAttribute("sellerList", sellerList);
+		/*페이징*/
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(adminService.getSellerAllCount());
@@ -240,6 +248,7 @@ public class AdminController {
 	@RequestMapping(value="/admin/get/consumer/account/one", method = RequestMethod.GET)
 	public String getConsumerAccountOne(Model model, ConsumerVo consumerVo, HttpSession session) {
 		System.out.println("AdminController.getConsumerAccount() 호출");
+		/*세션유지*/
 		model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
 		AccountConsumerVo accountConsumer = adminService.getConsumerAccountOne(consumerVo);
 		System.out.println(accountConsumer+"<--accountConsumer");
@@ -255,6 +264,7 @@ public class AdminController {
 	@RequestMapping(value="/admin/get/seller/document/one", method = RequestMethod.GET)
 	public String getSellerDocumentOne(Model model, SellerVo sellerVo, HttpSession session) {
 		System.out.println("AdminController.getSellerDocumentOne() 호출");
+		/*세션유지*/
 		model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
 		SellerFileVo sellerFile = adminService.getSellerDocumentOne(sellerVo);
 		System.out.println(sellerFile+"<--sellerFile");
@@ -263,18 +273,61 @@ public class AdminController {
 	}
 	/** 판매자 승인
 	 * 판매자 서류업로드조회 후 승인하기위한 update
-	 * 
-	 * @return 
+	 * @param SellerVo sellerVo, HttpSession session, Model model
+	 * @return redirect:/admin/get/seller/all
 	 * @since JDK1.8
 	 */
 	@RequestMapping(value="/admin/modify/seller/right/check", method = RequestMethod.GET)
 	public String modifySellerRightCheck(SellerVo sellerVo, HttpSession session, Model model) {
 		System.out.println("AdminController.modifySellerRightCheck() 호출");
+		/*세션유지*/
 		model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
 		String sessionLoginId = (String) session.getAttribute("sessionLoginId");
 		System.out.println(sessionLoginId+"<--sessionLoginId");
 		sellerVo.setSellerAdmitAdmin(sessionLoginId);
 		adminService.modifySellerRightCheck(sellerVo);
 		return "redirect:/admin/get/seller/all";
+	}
+	/** 매수주문 리스트
+	 * 매수주문리스트 보여준다.
+	 * @param Criteria cri, Model model, HttpSession session
+	 * @return admin/listOrderBuy
+	 * @since JDK1.8
+	 */
+	@RequestMapping(value="/admin/get/order/buy/all", method=RequestMethod.GET)
+	public String getOrderBuyAll(@ModelAttribute("cri") Criteria cri, Model model, HttpSession session) {
+		System.out.println("AdminController.getOrderBuyAll() 호출");
+		/*세션유지*/
+		model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
+		/*보여줄 목록*/
+		List<OrderBuyVo> orderBuyList = adminService.getOrderBuyAll(cri);
+		model.addAttribute("orderBuyList", orderBuyList);
+		/*페이징*/
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(adminService.getOrderBuyAllCount());
+		model.addAttribute("pageMaker", pageMaker);
+		return "admin/listOrderBuy";
+	}
+	/** 매도주문 리스트
+	 * 매도주문리스트 보여준다.
+	 * @param Criteria cri, Model model, HttpSession session
+	 * @return admin/listOrderSell
+	 * @since JDK1.8
+	 */
+	@RequestMapping(value="/admin/get/order/sell/all", method=RequestMethod.GET)
+	public String getOrderSellAll(@ModelAttribute("cri") Criteria cri, Model model, HttpSession session) {
+		System.out.println("AdminController.getOrderSellAll() 호출");
+		/*세션유지*/
+		model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
+		/*보여줄 목록*/
+		List<OrderSellVo> orderSellList = adminService.getOrderSellAll(cri);
+		model.addAttribute("orderSellList", orderSellList);
+		/*페이징*/
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(adminService.getOrderSellAllCount());
+		model.addAttribute("pageMaker", pageMaker);
+		return "admin/listOrderSell";
 	}
 }

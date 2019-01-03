@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	data-layout-decorate="~{layout/defaultLayout}">
+	data-layout-decorate="~{layout/adminMemberTabMenuLayout}">
 <th:block layout:fragment="css">
 	<style>
 .table tr td {
@@ -64,8 +64,17 @@ ul.pagination li.page-item.active a {
 }
 </style>
 </th:block>
-<div layout:fragment="content" class="main-box container">
-	<h2 class="title-style" align="center">구매자 목록</h2>
+<th:block layout:fragment="script">
+	<script type="text/javascript">
+		$(document).ready(function(){
+			/* side menu */
+			$("#nav-consumer").addClass("active");
+			$("#admin-tab-consumer").addClass("active");
+	    });
+	</script>
+</th:block>
+<th:block layout:fragment="tabContentConsumer" class="main-box container">
+	<h2 class="title-style">구매자 목록</h2>
 	<table class="consumer-data-table list">
 		<tr>
 			<th>아이디</th>
@@ -119,5 +128,5 @@ ul.pagination li.page-item.active a {
 			th:href="@{/admin/get/consumer/all(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum})}">&raquo;</a>
 		</li>
 	</ul>
-</div>
+</th:block>
 </html>

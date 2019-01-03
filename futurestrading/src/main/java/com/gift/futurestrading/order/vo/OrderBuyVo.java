@@ -6,7 +6,7 @@ public class OrderBuyVo {
 	private String orderBuyMethod;			/*매수방법*/
 	private int orderBuyPerPrice;			/*매수가격*/
 	private int orderBuyAmount;				/*매수수량*/
-
+	
 	public String getFkConsumerOrderBuy() {
 		return fkConsumerOrderBuy;
 	}

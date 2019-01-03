@@ -136,4 +136,42 @@
 			seller_admit_admin = #{adminIdPk}
 		WHERE seller_id_pk=#{sellerIdPk};
 	</update>
+	<!-- 매수주문리스트 조회하기 위한 select -->
+	<select id="selectOrderBuyAll" resultType="com.gift.futurestrading.sign.vo.OrderBuyVo" parameterType="com.gift.futurestrading.page.vo.Criteria">
+		SELECT  
+			order_buy_pk as orderBuyPk,
+			fk_consumer__order_buy as fkConsumerOrderBuy,
+			order_buy_method as orderBuyMethod,
+			order_buy_amount as orderBuyAmount,
+			order_buy_per_price as orderBuyPerPrice,
+			order_buy_date as orderBuyDate,
+			order_buy_final_pay_date as orderBuyFinalPayDate
+		FROM order_buy
+		WHERE order_buy_status='미체결'
+		ORDER BY order_buy_pk DESC
+		LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	<!-- 매수주문리스트 전체 행 구하기 위한 select-->
+	<select id="selectOrderBuyAllCount" resultType="int">
+		SELECT COUNT(*) FROM order_buy WHERE order_buy_status='미체결'
+	</select>
+	<!-- 매도주문리스트 조회하기 위한 select -->
+	<select id="selectOrderSellAll" resultType="com.gift.futurestrading.sign.vo.OrderSellVo" parameterType="com.gift.futurestrading.page.vo.Criteria">
+		SELECT  
+			order_sell_pk as orderSellPk,
+			fk_seller__order_sell as fkSellerOrderSell,
+			order_sell_method as orderSellMethod,
+			order_sell_amount as orderSellAmount,
+			order_sell_per_price as orderSellPerPrice,
+			order_sell_date as orderSellDate,
+			order_sell_final_pay_date as orderSellFinalPayDate
+		FROM order_sell
+		WHERE order_sell_status='미체결'
+		ORDER BY order_sell_pk DESC
+		LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	<!-- 매도주문리스트 전체 행 구하기 위한 select-->
+	<select id="selectOrderSellAllCount" resultType="int">
+		SELECT COUNT(*) FROM order_sell WHERE order_sell_status='미체결'
+	</select>
 </mapper>
