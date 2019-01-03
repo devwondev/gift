@@ -30,6 +30,13 @@ public class ConsumerController {
 	@Autowired
 	private ConsumerService consumerService;
 	
+	@RequestMapping(value="/consumer/mywallet/property", method=RequestMethod.GET)
+	public String ConsumerMyWalletProperty(HttpSession session, Model model) {
+		System.out.println("ConsumerController.ConsumerMyWlletProperty() 호출");
+		model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
+		return "member/consumer/getMemberConsumerWalletProperty";
+	}
+	
 	/**
 	 *  해당 url로 요청이 들어왔을 때(ajax), 날짜별 데이터를 보낸다.
 	 * 
@@ -73,7 +80,7 @@ public class ConsumerController {
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(consumerService.getSignAllCount(getId));
 		model.addAttribute("pageMaker", pageMaker);
-		return "member/consumer/getSignList";
+		return "member/consumer/getMemberConsumerWalletSignList";
 	}
 	
 	/**

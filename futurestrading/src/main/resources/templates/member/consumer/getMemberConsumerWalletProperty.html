@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	data-layout-decorate="~{layout/myWallrtTabMenuLayout}">
+	
+	<th:block layout:fragment="css">
+		<style type="text/css">
+			.tab-content{
+	            background-color: #fff;
+	        }
+		</style>
+	</th:block>
+	
+	<th:block layout:fragment="script">
+		<script type="text/javascript">
+			$(document).ready(function(){
+				/* side menu */
+				$("#nav-property").addClass("active");
+				$("#wallet-tab-property").addClass("active");
+		    });
+		</script>
+	</th:block>
+	
+	<th:block layout:fragment="tabContentProperty">
+		<h2>자산현황</h2>
+	</th:block>
+</html>
+	

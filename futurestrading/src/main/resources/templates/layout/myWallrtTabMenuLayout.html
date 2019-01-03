@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<!-- config  -->
+<head th:replace="layout/config :: configFragment"></head>
+
+<!-- header -->
+<header th:replace="layout/header :: headerFragment"></header>
+
+<div class="container mypage">
+     <div class="row">
+       	<!-- 탭메뉴 -->
+		<div class="col-md-3 mypage-nav">
+			<ul class="nav flex-column">
+			    <li class="nav-item">
+			      <a class="nav-link" id="nav-property" th:href="@{/consumer/mywallet/property}">자산현황</a>
+			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" id="nav-history" th:href="@{/consumer/get/sign/list}">체결내역</a>
+			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" id="nav-input" href="#">입금</a>
+			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" id="nav-output" href="#">출금</a>
+			    </li>
+			</ul>
+		</div>
+		<!-- 탭컨텐츠 -->
+		<!-- mypage content -->
+		<div class="col-md-9">
+			<div class="mypage-content tab-content">
+				<div id="wallet-tab-property" class="tab-pane" data-toggle="tab">
+				    <div layout:fragment="tabContentProperty"></div>
+				</div>
+				<div id="wallet-tab-history" class="tab-pane">
+					<div layout:fragment="tabContentHistory"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- footer -->
+<footer th:replace="layout/footer :: footerFragment"></footer>
+
+</html>

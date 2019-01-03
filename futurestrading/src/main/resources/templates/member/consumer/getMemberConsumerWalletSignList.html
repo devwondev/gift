@@ -1,8 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	data-layout-decorate="~{layout/myWallrtTabMenuLayout}">
+	
+<th:block layout:fragment="css">
+	<style type="text/css">
+		.tab-content{
+            background-color: #fff;
+        }
+	</style>
+</th:block>
 
-<div th:fragment="mypage-content-member-remove">
+<th:block layout:fragment="script">
+	<script type="text/javascript">
+		$(document).ready(function(){
+			/* side menu */
+			$("#nav-history").addClass("active");
+			$("#wallet-tab-history").addClass("active");
+	    });
+	</script>
 	<script>
 	/* 날짜별 검색결과 가져오기 */
 	function searchCheck(){
@@ -50,6 +66,9 @@
     	});
 	}
 	</script>
+</th:block>
+
+<th:block layout:fragment=tabContentHistory>
 	<h2>체결내역</h2>
 	<div class="sub-sub-content">
 		<!-- 검색 창 -->
@@ -129,5 +148,5 @@
             </li>
 		</ul>
 		</div>
-</div>
+</th:block>
 </html>
