@@ -20,7 +20,7 @@
 				(select seller_name from seller where seller_id_pk=#{order_sell_seller_name}),
 				#{order_sell_method},
 				#{order_sell_per_price},
-				#{order_sell_per_price},
+				#{order_sell_amount},
 				#{order_sell_amount},
 				now());
 	</insert>

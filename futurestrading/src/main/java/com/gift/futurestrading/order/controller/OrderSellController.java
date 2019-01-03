@@ -95,6 +95,6 @@ public class OrderSellController {
 		orderSellVo.setOrderSellMethod(orderSellVo.getOrderSellMethod().substring(1));
 		orderSellService.addSellerOrder(orderSellVo);
 		
-		return "index";
+		return "redirect:/seller/order";
 	}
 }
