@@ -2,8 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.gift.futurestrading.member.mapper.ConsumerMapper">
-	<!-- 날짜별 체결내역 select -->
-	<select id="selectSignSearch" parameterType="String" resultType="com.gift.futurestrading.member.vo.ConsumerSignDetailVo">
+	<!-- 구매자 체결 검색 결과 행을 구하기위한 select -->
+	<select id="selectSearchCount" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM sign
+		WHERE fk_consumer__sign = #{getId}
+			AND (date(sign_date) <![CDATA[>=]]> #{startDate} AND date(sign_date) <![CDATA[<=]]> #{endDate}) 
+	</select>
+
+	<!-- 날짜별 체결내역 select(페이징) -->
+	<select id="selectSignSearch" parameterType="map" resultType="com.gift.futurestrading.member.vo.ConsumerSignDetailVo">
 		SELECT sign_pk as signPk
 			, fk_order_buy__sign as fkOrderBuySign
 			, fk_seller__sign as fkSellerSign
@@ -15,9 +22,11 @@
 			, sign_date as signDate
 			, sign_futures_trade_begin_date as signFuturesTradeBeginDate
 			, sign_futures_trade_end_date as signFuturesTradeEndDate
-		FROM sign
+		FROM sign 
 		WHERE fk_consumer__sign = #{getId}
-			AND (date(sign_date) <![CDATA[>=]]> #{startDate} AND date(sign_date) <![CDATA[<=]]> #{endDate}) 
+		AND (date(sign_date) <![CDATA[>=]]> #{startDate} AND date(sign_date) <![CDATA[<=]]> #{endDate})
+		ORDER BY sign_pk DESC
+		LIMIT #{pageStart}, #{perPageNum}
 	</select>
 	
 	<!-- 체결내역 select(페이징) -->
@@ -35,12 +44,13 @@
 			, sign_futures_trade_end_date as signFuturesTradeEndDate
 		FROM sign
 		WHERE fk_consumer__sign = #{getId}
+		ORDER BY sign_pk DESC
 		LIMIT #{pageStart}, #{perPageNum}
 	</select>
 	
 	<!-- 구매자 체결 전체 행을 구하기위한 select -->
 	<select id="selectSignAllCount" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM sign where fk_consumer__sign = #{getId}
+		SELECT COUNT(*) FROM sign WHERE fk_consumer__sign = #{getId}
 	</select>
 	
 	<!-- 문자  + 숫자 조합의 primary key에서 숫자를 가져오기위한(기본키 자동증가 구현을 위해) select -->

@@ -17,7 +17,20 @@ import com.gift.futurestrading.page.vo.Criteria;
 @Service
 public class ConsumerService {
 	@Autowired
-	private ConsumerMapper consumerMapper;	
+	private ConsumerMapper consumerMapper;
+	
+	/**
+	 * 구매자 체결내역 검색 결과 전체 행을 구하는 메서드 호출
+	 * 
+	 * @param getId
+	 * @return totalCount
+	 * @since JDK1.8
+	 */
+	public int getSignSearchCount(HashMap<String, Object> map) {
+		System.out.println("SampleService.getSignSearchCount() 호출");
+		int totalCount = consumerMapper.selectSearchCount(map);
+		return totalCount;
+	}
 	
 	/**
 	 * 검색을 이용해서 날짜별 체결내역을 불러오는 메서드 호출
@@ -26,9 +39,15 @@ public class ConsumerService {
 	 * @return searchListVo
 	 * @since JDK1.8
 	 */
-	public List<ConsumerSignDetailVo> getSearchResult(String startDate, String endDate, String getId) {
+	public List<ConsumerSignDetailVo> getSearchResult(Criteria cri, String startDate, String endDate, String getId) {
 		System.out.println("ConsumerService.getSearchResult() 호출");
-		List<ConsumerSignDetailVo> searchListVo = consumerMapper.selectSignSearch(startDate, endDate, getId);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("pageStart", cri.getPageStart());
+		map.put("perPageNum", cri.getPerPageNum());
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("getId", getId);
+		List<ConsumerSignDetailVo> searchListVo = consumerMapper.selectSignSearch(map);
 		return searchListVo;
 	}
 	

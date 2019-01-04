@@ -47,7 +47,7 @@ public class ConsumerController {
 	 */
 	@RequestMapping(value="/consumer/get/search/list", method=RequestMethod.POST)
 	@ResponseBody
-	public List<ConsumerSignDetailVo> getSearchList(HttpSession session, Model model, @RequestBody HashMap<String, Object> searchDate) {
+	public Map<String, Object> getSearchList(@ModelAttribute("cri") Criteria cri, HttpSession session, Model model, @RequestBody HashMap<String, Object> searchDate) {
 		System.out.println("ConsumerController.getSearchResult() 호출");
 		model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
 		String getId = (String)session.getAttribute("sessionLoginId");
@@ -56,8 +56,20 @@ public class ConsumerController {
 		System.out.println(getId + "<-- getId");
 		System.out.println(startDate + "<-- startDate");
 		System.out.println(endDate + "<-- endDate");
-		List<ConsumerSignDetailVo> searchListVo = consumerService.getSearchResult(startDate, endDate, getId);
-		return searchListVo;
+		List<ConsumerSignDetailVo> searchListVo = consumerService.getSearchResult(cri, startDate, endDate, getId);
+		/* 검색결과 전체행을 구하기 위한 값을 보내줌 */
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("getId", getId);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(consumerService.getSignSearchCount(map));
+		/* 호출한 view에 map으로 리턴 */
+		Map<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("searchListVo", searchListVo);
+		map2.put("pageMaker", pageMaker);
+		return map2;
 	}
 	
 	/**

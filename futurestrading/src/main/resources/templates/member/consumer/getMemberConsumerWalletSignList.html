@@ -26,6 +26,7 @@
 		
 		/* 검색버튼 누를 때 처음 리스트를 숨김 */
 		$('#firstList').hide();
+		$('#firstPaging').hide();
 		/* 클릭을 할 때마다 테이블에 데이터가 쌓이지 않게 함 */
 		/* :gt(index) 주어진 인덱스보다 높은 인덱스를 갖는 모든 요소와 일치
 			tr:gt(0)는 문서에 존재하는 모든 tr 중 그 인덱스가 0 이상인 모든 열들을 선택 */
@@ -44,21 +45,28 @@
     		success : function(data){
     			console.log('data 받아오기 성공');
     			console.log(data);
-
-    			$.each(data, function () {
-    				$('#signList').append("<tr><td>" + this.signPk 
-						+ "</td><td>" + this.fkOrderBuySign
-						+ "</td><td>" + this.fkSellerSign 
-						+ "</td><td>" + this.signSellerName 
-						+ "</td><td>" + this.signPerPrice 
-						+ "</td><td>" + this.signAmount 
-						+ "</td><td>" + this.signTotalPrice 
-						+ "</td><td>" + this.signInitialMargin 
-						+ "</td><td>" + this.signDate 
-						+ "</td><td>" + this.signFuturesTradeBeginDate
-						+ "</td><td>" + this.signFuturesTradeEndDate
-						+ "</td></tr>");
-    			});
+    			console.log(Object.keys(data) + '<-----이게 뭘까용');
+    			console.log(data["searchListVo"][0].signPk + '<-----이게 뭘까용2');
+    			console.log(data["searchListVo"][1].signPk + '<-----이게 뭘까용2');
+    			console.log(data["pageMaker"].totalCount + '<-----토탈카운트');
+    			
+    			var totalCount = data["pageMaker"].totalCount;
+    			console.log(totalCount + '<--- 냥');
+ 
+    			for(var i = 0; i < totalCount; i++) {
+       				$('#signList').append("<tr><td>" + data["searchListVo"][i].signPk
+   						+ "</td><td>" + data["searchListVo"][i].fkOrderBuySign
+   						+ "</td><td>" + data["searchListVo"][i].fkSellerSign 
+   						+ "</td><td>" + data["searchListVo"][i].signSellerName 
+   						+ "</td><td>" + data["searchListVo"][i].signPerPrice 
+   						+ "</td><td>" + data["searchListVo"][i].signAmount 
+   						+ "</td><td>" + data["searchListVo"][i].signTotalPrice 
+   						+ "</td><td>" + data["searchListVo"][i].signInitialMargin 
+   						+ "</td><td>" + data["searchListVo"][i].signDate 
+   						+ "</td><td>" + data["searchListVo"][i].signFuturesTradeBeginDate
+   						+ "</td><td>" + data["searchListVo"][i].signFuturesTradeEndDate
+   						+ "</td></tr>");
+    			} 
     		},
     		error: function(error) {					
 				console.log("error: "+error);
@@ -136,7 +144,7 @@
 				<tr></tr>
 			</tfoot>
 		</table>
-		<ul class="pagination justify-content-center">
+		<ul class="pagination justify-content-center" id="firstPaging">
 	 		<li th:if="${pageMaker.prev} == true" class="page-item">
             	<a class="page-link" th:href="@{/consumer/get/sign/list(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum})}">&laquo;</a>
         	</li>

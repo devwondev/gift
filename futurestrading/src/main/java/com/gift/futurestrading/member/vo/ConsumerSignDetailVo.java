@@ -1,17 +1,17 @@
 package com.gift.futurestrading.member.vo;
 
 public class ConsumerSignDetailVo {
-	private String signPk;
-	private String fkOrderBuySign;
-	private String fkSellerSign;
-	private String signSellerName;
-	private int signPerPrice;
-	private int signAmount;
-	private int signTotalPrice;
-	private int signInitialMargin;
-	private String signDate;
-	private String signFuturesTradeBeginDate;
-	private String signFuturesTradeEndDate;
+	private String signPk;						/* 체결번호(PK) */
+	private String fkOrderBuySign;				/* 매수주문번호 */
+	private String fkSellerSign;				/* 판매자아이디 */
+	private String signSellerName;				/* 판매자이름 */
+	private int signPerPrice;					/* 체결가격(1계약당) */
+	private int signAmount;						/* 체결수량 */
+	private int signTotalPrice;					/* 전체체결가 */
+	private int signInitialMargin;				/* 체결증거금 */
+	private String signDate;					/* 체결날짜 */
+	private String signFuturesTradeBeginDate;	/* 선물거래기간(시작일) */
+	private String signFuturesTradeEndDate;		/* 선물거래기간(만기일) */
 	
 	public String getSignPk() {
 		return signPk;

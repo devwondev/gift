@@ -8,11 +8,15 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.gift.futurestrading.member.vo.ConsumerMypageVo;
 import com.gift.futurestrading.member.vo.ConsumerSignDetailVo;
+import com.gift.futurestrading.page.vo.Criteria;
 
 @Mapper
 public interface ConsumerMapper {
+	/* 구매자 체결내역 검색 결과 전체행을  select*/
+	int selectSearchCount(HashMap<String, Object> map);
+	
 	/* 구매자 날짜별 체결내역 select*/
-	List<ConsumerSignDetailVo> selectSignSearch(String startDate, String endDate, String getId);
+	List<ConsumerSignDetailVo> selectSignSearch(HashMap<String, Object> map);
 	
 	/* 구매자 체결내역 select(페이징)*/
 	List<ConsumerSignDetailVo> selectSignList(HashMap<String, Object> map);
