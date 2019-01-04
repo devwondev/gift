@@ -3,6 +3,7 @@ package com.gift.futurestrading.member.controller;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,39 @@ public class SellerController {
 	@Autowired
 	private SellerService sellerService;
 	
+	/**
+	 * 판매자 마이페이지에서 수정할 아이디와 비밀번호를 받아 해당 멤버의 비밀번호를 수정해주는 service계층의 메서드 호출
+	 * @author 양진선
+	 * @param sellerIdPk, sellerPassword, sellerChangePassword, session, model
+	 * @return returnView
+	 * @since JDK1.8
+	 */
+	@RequestMapping(value="/seller/mypage/password/modify", method=RequestMethod.POST)
+	public String modifySellerPassword(@RequestParam("sellerIdPk") String sellerIdPk, @RequestParam("sellerPassword") String sellerPassword,  @RequestParam("sellerChangePassword") String sellerChangePassword, HttpSession session, Model model) {
+		System.out.println("SellerController.modifySellerPassword() 호출");
+		/* 화면에서 넘어온 파라미터를 해쉬맵에 저장 */
+		HashMap<String, Object> sellerMypageChangePw = new HashMap<String, Object>();
+		sellerMypageChangePw.put("sellerIdPk", sellerIdPk);
+		sellerMypageChangePw.put("sellerPassword", sellerPassword);
+		sellerMypageChangePw.put("sellerChangePassword", sellerChangePassword);
+		
+		/* 랜더링할 뷰의 주소를 저장할 변수 */
+		String returnView = null;
+		
+		if(session.getAttribute("sessionLoginMember") != null) {		// session 존재할 때
+			System.out.println("session 존재할 때");
+			/* service 계층의 메서드 호출 후, 리턴값 출력 */
+			sellerService.updateSellerPassword(sellerMypageChangePw);
+			
+			/* 랜더링 할 뷰로 모델 전달 */
+			model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));		
+			returnView = "index";
+		} else {		// session 존재하지 않을 때
+			System.out.println("session 존재하지 않을 때");
+			returnView = "index";
+		}
+		return returnView;
+	}
 	
 	/**
 	 * 판매자 마이페이지에서 수정할 정보를 받아 해당 멤버의 개인정보를 수정해주는 service계층의 메서드 호출
@@ -58,11 +92,7 @@ public class SellerController {
 		}	
 		return returnView;
 	}
-	
-	
-	
-	
-	
+
 	/**
 	 * 회원수정 폼으로 이동하기위해 사용자가 입력한 id, password가 일치하는지 알아보기위한 메서드를 호출한다.
 	 * @author 양진선

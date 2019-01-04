@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,17 @@ import com.gift.futurestrading.member.vo.SellerRequestVo;
 public class SellerService {
 	@Autowired
 	private SellerMapper sellerMapper;
+	
+	/**
+	 * 화면에서 입력 받은 데이터를 저장한 해쉬맵을 파라미터로 해당 멤버의 비밀번호를 수정하는 mapper계층의 메서드 호출
+	 * @author 양진선
+	 * @param sellerMypageChangePw
+	 * @since JDK1.8
+	 */
+	public void updateSellerPassword(HashMap<String, Object> sellerMypageChangePw) {
+		System.out.println("SellerService.updateSellerPassword() 호출");
+		sellerMapper.updateSellerMypagePassword(sellerMypageChangePw);	
+	}
 	
 	/**
 	 * 화면에서 입력 받은 데이터를 저장한 VO를 파라미터로 해당 멤버의 개인정보를 수정하는 mapper계층의 메서드 호출

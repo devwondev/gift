@@ -1,93 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	data-layout-decorate="~{layout/defaultLayout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
-<!-- 임시 -->
-<th:block layout:fragment="css">
-	<style type="text/css">
-		.main-box{
-			text-align: left;
-			width: 500px;
-		}
-		.main-box h1{
-			text-align: center;
-			margin-bottom: 50px;
-		}
-		.title{
-			border-bottom: solid 1px gray;
-			padding-bottom: 15px
-		}
-	</style>
-</th:block>
-
-<th:block layout:fragment="script">
-	<script type="text/javascript">
-		
-	/* 입력한 계좌번호가 유효한지 알아보는 함수 */
-	function accountCheck() {
-		console.log("::: 계좌번호 유효한지 확인 :::");
-		
-		var bankName = $('#bankName').val();
-		var consumerAccount = $('#consumerAccount').val();
-		var accountHelper = $('#accountHelper')
-		var consumerName = $('#consumerName').val();
-		console.log(bankName+' <---bankName');
-		console.log(consumerAccount+' <---consumerAccount');
-		 
-		
- 		$.ajax({
- 			// 요청 시 동기유무 선택할 수 있다.(true / false)
-			//async: true,
-			// Http요청방식
-			type: "POST",
-			// 서버로 보낼 주소를 입력
-			url: "/accountcheck",
-			// 사용자가 입력하여 넘어온 값을 서버로 보낸다.
-			data: {"consumerName" : consumerName, "bankName" : bankName, "consumerAccount" : consumerAccount},
-			// Http요청 후 리턴하는 데이터의 타입을 지정
-			// dataType: "json",
-			// contentType: "application/json; charset=UTF-8",
-			// 성공적으로 값을 서버로 보냈을 경우 처리하는 코드
-			success: function(data) {				
-				console.log('data 받아오기 성공 !');
-				console.log(data + ' <---data');
-				
- 				if(data != undefined) {
- 					switch (data) {
- 						case "거래가능":
- 							console.log('거래가능');
- 							accountHelper.text(data + '한 계좌입니다.');
- 							break;
- 						case "거래중지":	
- 							console.log('거래중지');
- 							accountHelper.text(data + '된 계좌입니다.');
- 							break;
- 						case "휴면":	
- 							console.log('휴면');
- 							accountHelper.text(data + '상태의 계좌입니다.');
- 							break;
- 						case "":
- 							console.log('없음');
- 							accountHelper.text('계좌번호가 유효하지 않습니다.');
- 							break;
- 					}					
-				} 	
-			},
-			error: function(error) {					
-
-				console.log('error: '+error);
-		
-			}	
-		});		// end ajax	
-	}
-	</script>
-</th:block>
-<meta charset="UTF-8">
-<title>Add Consumer Account</title>
-
-<div layout:fragment="content">
-	<div class="container main-box">
+<div th:fragment="mypage-content-account">
+	<div class="container">
 		<div class="page-header">
 			<h1 class="title">
 				구매자 계좌인증

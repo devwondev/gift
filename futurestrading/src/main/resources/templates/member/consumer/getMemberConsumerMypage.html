@@ -7,6 +7,18 @@
 		.tab-content{
 			background-color: #fff;
 		}
+		.main-box{
+			text-align: left;
+			width: 500px;
+		}
+		.main-box h1{
+			text-align: center;
+			margin-bottom: 50px;
+		}
+		.title{
+			border-bottom: solid 1px gray;
+			padding-bottom: 15px
+		}
 	</style>
 </th:block>
 <th:block layout:fragment="script">
@@ -43,6 +55,66 @@
             });
         });
     </script>
+    <script type="text/javascript">
+		
+	/* 입력한 계좌번호가 유효한지 알아보는 함수 */
+	function accountCheck() {
+		console.log("::: 계좌번호 유효한지 확인 :::");
+		
+		var bankName = $('#bankName').val();
+		var consumerAccount = $('#consumerAccount').val();
+		var accountHelper = $('#accountHelper')
+		var consumerName = $('#consumerName').val();
+		console.log(bankName+' <---bankName');
+		console.log(consumerAccount+' <---consumerAccount');
+		 
+		
+ 		$.ajax({
+ 			// 요청 시 동기유무 선택할 수 있다.(true / false)
+			//async: true,
+			// Http요청방식
+			type: "POST",
+			// 서버로 보낼 주소를 입력
+			url: "/accountcheck",
+			// 사용자가 입력하여 넘어온 값을 서버로 보낸다.
+			data: {"consumerName" : consumerName, "bankName" : bankName, "consumerAccount" : consumerAccount},
+			// Http요청 후 리턴하는 데이터의 타입을 지정
+			// dataType: "json",
+			// contentType: "application/json; charset=UTF-8",
+			// 성공적으로 값을 서버로 보냈을 경우 처리하는 코드
+			success: function(data) {				
+				console.log('data 받아오기 성공 !');
+				console.log(data + ' <---data');
+				
+ 				if(data != undefined) {
+ 					switch (data) {
+ 						case "거래가능":
+ 							console.log('거래가능');
+ 							accountHelper.text(data + '한 계좌입니다.');
+ 							break;
+ 						case "거래중지":	
+ 							console.log('거래중지');
+ 							accountHelper.text(data + '된 계좌입니다.');
+ 							break;
+ 						case "휴면":	
+ 							console.log('휴면');
+ 							accountHelper.text(data + '상태의 계좌입니다.');
+ 							break;
+ 						case "":
+ 							console.log('없음');
+ 							accountHelper.text('계좌번호가 유효하지 않습니다.');
+ 							break;
+ 					}					
+				} 	
+			},
+			error: function(error) {					
+
+				console.log('error: '+error);
+		
+			}	
+		});		// end ajax	
+	}
+	</script>
 </th:block>
 
 <div layout:fragment="content">
@@ -52,7 +124,10 @@
             <div class="col-md-3 mypage-nav">
                 <ul class="nav nav-tabs flex-column">
                     <li class="nav-item">
-                      <a class="nav-link active" href="#mypage-content-information">회원정보 수정</a>
+                      <a class="nav-link active" href="#mypage-content-account">계좌인증</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#mypage-content-information">회원정보 수정</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="#mypage-content-password">비밀번호 변경</a>
@@ -68,8 +143,13 @@
             <!-- mypage content -->
             <div class="col-md-9">
                 <div class="mypage-content tab-content">
+                    <!-- 계좌인증 폼 -->
+                    <div id="mypage-content-account" class="tab-pane active">
+                        <div th:replace="member/consumer/addAccountOfMemberConsumer :: mypage-content-account">
+                		</div>
+                    </div>
                 	<!-- 회원정보 수정 폼 -->
-                    <div id="mypage-content-information" class="tab-pane active">
+                    <div id="mypage-content-information" class="tab-pane">
                         <div th:replace="member/consumer/fragmentMemberConsumerMypageInformation :: mypage-content-information">
                 		</div>
                     </div>

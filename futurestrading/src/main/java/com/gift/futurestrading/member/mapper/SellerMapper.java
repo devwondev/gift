@@ -2,6 +2,7 @@ package com.gift.futurestrading.member.mapper;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import com.gift.futurestrading.member.vo.AccountCheckResultVo;
@@ -9,6 +10,8 @@ import com.gift.futurestrading.member.vo.SellerMypageVo;
 
 @Mapper
 public interface SellerMapper {
+	/* 판매자 마이페이지 비밀번호 수정처리를 위한 update*/
+	int updateSellerMypagePassword(HashMap<String, Object> sellerMypageChangePw);
 	
 	/* 판매자 마이페이지 회원정보 수정처리를 위한 update */
 	int updateSellerMypageInformation(SellerMypageVo sellerMypageVo);
