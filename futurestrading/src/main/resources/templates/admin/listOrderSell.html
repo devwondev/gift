@@ -65,17 +65,109 @@ ul.pagination li.page-item.active a {
 </style>
 </th:block>
 <th:block layout:fragment="script">
+	<script type="text/javascript"
+		th:src="@{/webjars/highcharts/6.2.0/highstock.js}"></script>
 	<script type="text/javascript">
-		$(document).ready(function(){
-			/* side menu */
-			$("#nav-order-sell").addClass("active");
-			$("#admin-tab-order-sell").addClass("active");
-	    });
+		$(document).ready(
+				function() {
+					/* side menu */
+					$("#nav-order-sell").addClass("active");
+					$("#admin-tab-order-sell").addClass("active");
+					/* order sell chart */
+					$.getJSON('/admin/get/order/sell/month/chart', function(
+							data) {
+						console.log(data + '<--data')
+						Highcharts.chart('orderSellChart', {
+							chart : {
+
+								type : 'column'
+
+							},
+
+							title : {
+
+								text : '매도주문량(월별)'
+
+							},
+
+							subtitle : {
+
+								text : '청양고추',
+
+								x : -20
+
+							},
+
+							xAxis : {
+
+								title : {
+
+									text : '연도-월'
+
+								},
+
+								categories : [ '2018-11', '2018-12', '2019-01',
+										'2019-02', '2019-03', '2019-04',
+										'2019-05', '2019-06', '2019-07' ]
+
+							},
+
+							yAxis : {
+
+								title : {
+
+									text : '매도주문량'
+
+								},
+
+								plotLines : [ {
+
+									value : 0,
+
+									width : 1,
+
+									color : '#808080'
+
+								} ]
+
+							},
+
+							series : [ {
+
+								name : '주문량',
+
+								data : data
+
+							} ],
+
+							legend : {
+
+								layout : 'vertical',
+
+								align : 'right',
+
+								verticalAlign : 'middle',
+
+								borderWidth : 0
+
+							},
+
+							tooltip : {
+
+								valueSuffix : '개'
+
+							}
+
+						});
+					});
+				});
 	</script>
 </th:block>
-<th:block layout:fragment="tabContentOrderSell" class="main-box container">
-	<h2 class="title-style">매도주문 목록</h2>
-	<div class="content-style" align="center">미체결 상태의 주문목록입니다.</div>
+<th:block layout:fragment="tabContentOrderSell"
+	class="main-box container">
+	<h2 class="title-style">매도주문</h2>
+	<div class="content-style" align="center">미체결 상태의 주문현황입니다.</div>
+	<div id="orderSellChart"></div>
 	<table class="order-data-table list">
 		<tr>
 			<th>매도주문번호</th>

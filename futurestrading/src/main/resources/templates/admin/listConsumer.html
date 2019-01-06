@@ -29,6 +29,14 @@
 	margin-bottom: 40px;
 }
 
+.content-style {
+	font-size: 12pt;
+	font-weight: 200;
+	color: #404040;
+	padding-bottom: 10px;
+	margin-bottom: 40px;
+}
+
 table.consumer-data-table {
 	font-size: 10pt;
 	font-weight: 100;
@@ -65,16 +73,110 @@ ul.pagination li.page-item.active a {
 </style>
 </th:block>
 <th:block layout:fragment="script">
+	<script type="text/javascript"
+		th:src="@{/webjars/highcharts/6.2.0/highstock.js}"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			/* side menu */
 			$("#nav-consumer").addClass("active");
 			$("#admin-tab-consumer").addClass("active");
+			/* consumer chart */
+			$.getJSON('/admin/get/consumer/month/chart',
+					function(data) {
+						console.log(data + '<--data')
+						Highcharts.chart('consumerChart',
+								{
+
+									chart : {
+
+										type : 'line'
+
+									},
+
+									title : {
+
+										text : '구매자 회원가입 현황(월별)'
+
+									},
+
+									subtitle : {
+
+										text : '매수자',
+
+										x : -20
+
+									},
+
+									xAxis : {
+
+										title : {
+
+											text : '연도-월'
+
+										},
+
+										categories : [ '2018-11',
+												'2018-12', '2019-01',
+												'2019-02', '2019-03',
+												'2019-04', '2019-05',
+												'2019-06', '2019-07' ]
+
+									},
+
+									yAxis : {
+
+										title : {
+
+											text : '가입회원수'
+
+										},
+
+										plotLines : [ {
+
+											value : 0,
+
+											width : 1,
+
+											color : '#808080'
+
+										} ]
+
+									},
+
+									series : [ {
+
+										name : '회원수',
+
+										data : data
+
+									} ],
+
+									legend : {
+
+										layout : 'vertical',
+
+										align : 'right',
+
+										verticalAlign : 'middle',
+
+										borderWidth : 0
+
+									},
+
+									tooltip : {
+
+										valueSuffix : '명'
+
+									}
+
+								});
+					});
 	    });
 	</script>
 </th:block>
 <th:block layout:fragment="tabContentConsumer" class="main-box container">
-	<h2 class="title-style">구매자 목록</h2>
+	<h2 class="title-style">구매자</h2>
+	<div id="consumerChart"></div>
 	<table class="consumer-data-table list">
 		<tr>
 			<th>아이디</th>

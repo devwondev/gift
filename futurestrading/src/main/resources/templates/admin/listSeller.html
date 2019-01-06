@@ -44,11 +44,11 @@ table.seller-data-table th, table.seller-data-table td {
 }
 
 .btn-detail {
-    width: 100%;
-    background-color: #3d90e2;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
+	width: 100%;
+	background-color: #3d90e2;
+	color: #fff;
+	border: none;
+	border-radius: 3px;
 }
 
 ul.pagination li.page-item a {
@@ -65,16 +65,110 @@ ul.pagination li.page-item.active a {
 </style>
 </th:block>
 <th:block layout:fragment="script">
+	<script type="text/javascript"
+		th:src="@{/webjars/highcharts/6.2.0/highstock.js}"></script>
 	<script type="text/javascript">
-		$(document).ready(function(){
+		$(document).ready(function() {
 			/* side menu */
 			$("#nav-seller").addClass("active");
 			$("#admin-tab-seller").addClass("active");
-	    });
+			/* seller chart */
+			$.getJSON('/admin/get/seller/month/chart',
+					function(data) {
+						console.log(data + '<--data')
+						Highcharts.chart('sellerChart',
+								{
+
+									chart : {
+
+										type : 'line'
+
+									},
+
+									title : {
+
+										text : '판매자 회원가입 현황(월별)'
+
+									},
+
+									subtitle : {
+
+										text : '매도자',
+
+										x : -20
+
+									},
+
+									xAxis : {
+
+										title : {
+
+											text : '연도-월'
+
+										},
+
+										categories : [ '2018-11',
+												'2018-12', '2019-01',
+												'2019-02', '2019-03',
+												'2019-04', '2019-05',
+												'2019-06', '2019-07' ]
+
+									},
+
+									yAxis : {
+
+										title : {
+
+											text : '가입회원수'
+
+										},
+
+										plotLines : [ {
+
+											value : 0,
+
+											width : 1,
+
+											color : '#808080'
+
+										} ]
+
+									},
+
+									series : [ {
+
+										name : '회원수',
+
+										data : data
+
+									} ],
+
+									legend : {
+
+										layout : 'vertical',
+
+										align : 'right',
+
+										verticalAlign : 'middle',
+
+										borderWidth : 0
+
+									},
+
+									tooltip : {
+
+										valueSuffix : '명'
+
+									}
+
+								});
+					});
+		});
 	</script>
 </th:block>
 <th:block layout:fragment="tabContentSeller" class="main-box container">
-	<h2 class="title-style">판매자 목록</h2>
+	<h2 class="title-style">판매자</h2>
+	<div id="sellerChart"></div>
 	<table class="seller-data-table list">
 		<tr>
 			<th>아이디</th>
@@ -104,11 +198,10 @@ ul.pagination li.page-item.active a {
 			<td th:text="${list.sellerRight}"></td>
 			<td th:text="${list.sellerAdmitAdmin}"></td>
 			<td th:text="${list.sellerAdmitDate}"></td>
-			<td>
-				<a th:href="@{/admin/get/seller/document/one(sellerIdPk=${list.sellerIdPk})}">
+			<td><a
+				th:href="@{/admin/get/seller/document/one(sellerIdPk=${list.sellerIdPk})}">
 					<button class="btn-detail">서류제출현황</button>
-				</a>
-			</td>
+			</a></td>
 		</tr>
 	</table>
 	<p class="blank"></p>
