@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	data-layout-decorate="~{layout/topAdminTabMenuLayout}">
+
+<th:block layout:fragment="css">
+	<style type="text/css">
+		.tab-content{
+			background-color: #fff;
+		}
+		select {
+		    width: 80px;
+		    height: 30px;
+		    padding-left: 10px;
+		    font-size: 18px;
+		    color: Gray;
+		    border: 1px solid Gray;
+		    border-radius: 3px;
+		} 
+	</style>
+</th:block>
+<th:block layout:fragment="script">
+	<script type="text/javascript">
+		$(document).ready(function(){
+			/* side menu */
+			$("#nav-profit").addClass("active");
+			$("#topadmin-tab-profit").addClass("active");
+	    });
+    </script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/export-data.js"></script>
+	<script>
+	$(document).ready(function(){
+		/* 조회 버튼 클릭하면 연도별로 데이터를 받아옴 */
+		$('#submitButton').click(function(){
+			data = $('#year').val();
+			/* Highcharts data연결 */
+			$.post('/topadmin/get/profit/per/year', data, function (data) {
+				console.log(data);
+				
+ 	  			var data0 = data[0].profitPerMonth; var data1 = data[1].profitPerMonth; var data2 = data[2].profitPerMonth;
+				var data3 = data[3].profitPerMonth; var data4 = data[4].profitPerMonth; var data5 = data[5].profitPerMonth;
+				var data6 = data[6].profitPerMonth; var data7 = data[7].profitPerMonth; var data8 = data[8].profitPerMonth;
+				var data9 = data[9].profitPerMonth; var data10 = data[10].profitPerMonth; var data11 = data[11].profitPerMonth;
+				
+				var data12 = data[12].profitPerMonth; var data13 = data[13].profitPerMonth; var data14 = data[14].profitPerMonth;
+				var data15 = data[15].profitPerMonth; var data16 = data[16].profitPerMonth; var data17 = data[17].profitPerMonth;
+				var data18 = data[18].profitPerMonth; var data19 = data[19].profitPerMonth; var data20 = data[20].profitPerMonth;
+				var data21 = data[21].profitPerMonth; var data22 = data[22].profitPerMonth; var data23 = data[23].profitPerMonth;
+				
+				Highcharts.setOptions({
+					lang: {
+					thousandsSep: ','
+					}
+				});	
+				Highcharts.chart('content', {
+				colors: ['#7cb5ec', '#f7a35c', '#90ee7e', '#7798BF', '#aaeeee', '#ff0066',
+			        '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+			    chart: {
+			        backgroundColor: null,
+			        style: {
+			            fontFamily: 'Dosis, sans-serif'
+			        }
+			    },
+			    title: {
+			    	text: '체결 수익금 조회',
+			        style: {
+			            fontSize: '16px',
+			            fontWeight: 'bold',
+			            textTransform: 'uppercase'
+			        }
+			    },
+			    subtitle: {
+			        text: '월별 수익'
+			    },
+			    xAxis: {
+			        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+			    },
+			    yAxis: {
+			        minorTickInterval: 'auto',
+			        title: {
+			        	text: '금액(백만원)',
+			            style: {
+			                textTransform: 'uppercase'
+			            }
+			        },
+				        labels: {
+				            style: {
+				                fontSize: '12px'
+				            }
+				        }
+				    },	
+				    plotOptions: {
+				        line: {
+				            dataLabels: {
+				                enabled: true
+				            },
+				            enableMouseTracking: false
+				        }
+				    },
+				    series: [{
+				        name: $('#year').val()-1,
+				        data: [data12, data13, data14, data15, data16, data17, data18, data19, data20, data21, data22, data23]
+				    }, {
+				        name: $('#year').val(),
+				        data: [data0, data1, data2, data3, data4, data5, data6, data7, data8, data9, data10, data11]
+				    }]
+				});
+			}, 'json');
+		});
+		/* Highcharts data연결, 첫화면 연결 */
+		data = $('#year').val();
+		$.post('/topadmin/get/profit/per/year', data, function (data) {
+			console.log(data);
+			
+  			var data0 = data[0].profitPerMonth; var data1 = data[1].profitPerMonth; var data2 = data[2].profitPerMonth;
+			var data3 = data[3].profitPerMonth; var data4 = data[4].profitPerMonth; var data5 = data[5].profitPerMonth;
+			var data6 = data[6].profitPerMonth; var data7 = data[7].profitPerMonth; var data8 = data[8].profitPerMonth;
+			var data9 = data[9].profitPerMonth; var data10 = data[10].profitPerMonth; var data11 = data[11].profitPerMonth;
+			
+			var data12 = data[12].profitPerMonth; var data13 = data[13].profitPerMonth; var data14 = data[14].profitPerMonth;
+			var data15 = data[15].profitPerMonth; var data16 = data[16].profitPerMonth; var data17 = data[17].profitPerMonth;
+			var data18 = data[18].profitPerMonth; var data19 = data[19].profitPerMonth; var data20 = data[20].profitPerMonth;
+			var data21 = data[21].profitPerMonth; var data22 = data[22].profitPerMonth; var data23 = data[23].profitPerMonth;
+
+			Highcharts.setOptions({
+				lang: {
+				thousandsSep: ','
+				}
+			});
+			/* tooltip 천단위 , 입력 */
+			Highcharts.chart('content', {
+				colors: ['#7cb5ec', '#f7a35c', '#90ee7e', '#7798BF', '#aaeeee', '#ff0066',
+			        '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+			    chart: {
+			        backgroundColor: null,
+			        style: {
+			            fontFamily: 'Dosis, sans-serif'
+			        }
+			    },
+			    title: {
+			    	text: '체결 수익금 조회',
+			        style: {
+			            fontSize: '16px',
+			            fontWeight: 'bold',
+			            textTransform: 'uppercase'
+			        }
+			    },
+			    subtitle: {
+			        text: '월별 수익'
+			    },
+			    xAxis: {
+			        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+			    },
+			    yAxis: {
+			        minorTickInterval: 'auto',
+			        title: {
+			        	text: '금액(백만원)',
+			            style: {
+			                textTransform: 'uppercase'
+			            }
+			        },
+			        labels: {
+			            style: {
+			                fontSize: '12px'
+			            }
+			        }
+			    },
+			    plotOptions: {
+			        line: {
+			            dataLabels: {
+			                enabled: true
+			            },
+			            enableMouseTracking: false
+			        }
+			    },
+			    series: [{
+			        name: $('#year').val()-1,
+			        data: [data12, data13, data14, data15, data16, data17, data18, data19, data20, data21, data22, data23]
+			    }, {
+			        name: $('#year').val(),
+			        data: [data0, data1, data2, data3, data4, data5, data6, data7, data8, data9, data10, data11]
+			    }]
+			});
+		}, 'json');
+    });
+	</script>
+</th:block>
+
+<div layout:fragment="tabContentProfit">
+	<!-- 수익관리 -->
+	<h2>수익관리</h2>
+		<select name="year" id="year">
+			<option value="2018">2018</option>
+			<option value="2017">2017</option>
+			<option value="2016">2016</option>
+		</select>
+		<button type="button" id="submitButton">조회</button>
+	<div class="content">
+		<div id="content" style="width: 800px; height: 400px; margin: 0 auto;">
+		</div>
+	</div>
+</div>
+</html>

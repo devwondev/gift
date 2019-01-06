@@ -2,6 +2,7 @@ package com.gift.futurestrading.admin.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,28 @@ public class AdminService {
 	@Autowired
 	private AdminMapper adminMapper;
 	
+	/** 수익관리 차트
+	 * year-1관련 차트 select
+	 * @param String year
+	 * @return profitDetail
+	 * @since JDK1.8
+	 */
+	public List<Map<String,Object>> getProfitDetail2(String year) {
+		System.out.println("AdminService.getProfitDetail2() 호출");
+		List<Map<String,Object>> profitDetail = adminMapper.selectProfitDetail2(year);
+		return profitDetail;
+	}
+	/** 수익관리 차트
+	 * year관련 차트 select
+	 * @param String year
+	 * @return profitDetail
+	 * @since JDK1.8
+	 */
+	public List<Map<String,Object>> getProfitDetail(String year) {
+		System.out.println("AdminService.getProfitDetail() 호출");
+		List<Map<String,Object>> profitDetail = adminMapper.selectProfitDetail(year);
+		return profitDetail;
+	}
 	/** 관리자 비밀번호확인
 	 * 관리자 비밀번호 select
 	 * @param HashMap<String, Object> idAndPassword

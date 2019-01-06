@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	data-layout-decorate="~{layout/defaultLayout}">
+	
 <th:block layout:fragment="script">
-	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 	<script type="text/javascript">
 	
 	var isPasswordCheck = 0;
@@ -84,6 +84,7 @@
 		#topAdminPasswordForm{
 			width: 300px;
 			margin: auto;
+			margin-bottom: 84px;
 		}
 		.main-box h1{
 			text-align: center;
@@ -94,7 +95,6 @@
 		}
 	</style>
 </th:block>
-
 	<div layout:fragment="content" class="main-box container">
 		<h1>최고관리자 비밀번호 확인</h1>
 		<form onsubmit="return validateForm();" action="/topadmin/check/re" id="topAdminPasswordForm" method="post">

@@ -2,6 +2,7 @@ package com.gift.futurestrading.admin.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,12 +28,41 @@ import com.gift.futurestrading.page.vo.PageMaker;
 import com.gift.futurestrading.sign.vo.OrderBuyVo;
 import com.gift.futurestrading.sign.vo.OrderSellVo;
 
-
 @Controller
 public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
+	/** 수익관리 차트 데이터 연결
+	 * 수익관리 첫화면에 차트 데이터 연결, 조회버튼 클릭시에도 데이터 연결
+	 * @return profitDetail
+	 * @since JDK1.8
+	 */	
+	@RequestMapping(value="/topadmin/get/profit/per/year", method=RequestMethod.POST)
+	@ResponseBody
+	public List<Map<String,Object>> getProfitPerYear(@RequestBody String getYear) {
+		System.out.println("AdminController.getProfitPerYear() 호출");
+		/* year를 출력하면 '2018=' 이런식으로 받아와져서 잘라줌 */
+		String year = getYear.substring(0,4);
+		System.out.println(year + "<--- year");
+		/* year에 해당하는 차트를 가져옴 */
+		List<Map<String,Object>> profitDetail = adminService.getProfitDetail(year);
+		/* year-1에 해당하는 차트를 가져와서 추가 */
+		profitDetail.addAll(adminService.getProfitDetail2(year));
+		return profitDetail;
+	}
+	/** 수익관리 첫화면 연결
+	 * 수익관리로 이동하면 처음 보이는 화면
+	 * @param HttpSession session, Model model
+	 * @return topAdmin/getProfitDetail
+	 * @since JDK1.8
+	 */	
+	@RequestMapping(value="/topadmin/get/profit/detail", method=RequestMethod.GET)
+	public String getProfitDetail(HttpSession session, Model model) {
+		System.out.println("AdminController.getProfitDetail() 호출");
+		model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
+		return "topAdmin/getProfitDetail";
+	}
 	/** 관리자 비밀번호 확인(ajax)
 	 * 수정폼의 현재 비밀번호 부분에서 관리자의 비밀번호가 일치하는지 확인한다.
 	 * @param String topAdminPassword

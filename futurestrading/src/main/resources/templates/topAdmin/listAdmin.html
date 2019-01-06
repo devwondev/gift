@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	data-layout-decorate="~{layout/defaultLayout}">
+	data-layout-decorate="~{layout/topAdminTabMenuLayout}">
 
 <th:block layout:fragment="css">
 	<style type="text/css">
-		.list{
-			width: 810px;
-			margin: auto;
-			text-align: center;
-		}
 		.insertBtn{
 			text-align: center;
 			margin-top: 30px;
@@ -21,62 +16,36 @@
 </th:block>
 <th:block layout:fragment="script">
 	<script type="text/javascript">
-        $(document).ready(function(){           
-        	/* side menu */
-        	$(".nav-tabs a").click(function(e){
-                $(this).tab('show');
-                e.preventDefault();
-            });
-        });
+		$(document).ready(function(){
+			/* side menu */
+			$("#nav-admin").addClass("active");
+			$("#topadmin-tab-admin").addClass("active");
+	    });
     </script>
 </th:block>
-
-	<div layout:fragment="content" class="main-box container">
-		<div class="container mypage">
-			<div class="row">
-				<!-- mypage side nav -->
-           		<div class="col-md-3 mypage-nav">
-           			<ul class="nav nav-tabs flex-column">
-	                    <li class="nav-item">
-	                      <a class="nav-link active" href="#mypage-content-admin-management">관리자관리</a>
-	                    </li>	                    
-	                    <li class="nav-item">
-	                      <a class="nav-link" href="#mypage-content-profit-management">수익관리</a>
-	                    </li>
-	                </ul>
-           		</div>
-           		<!-- mypage content -->
-	            <div class="col-md-9">
-	            	<div class="mypage-content tab-content">
-	                	<!-- 관리자 리스트 -->
-	                    <div id="mypage-content-admin-management" class="tab-pane active">
-	                    	<h2>관리자 목록</h2>
-							<table class="table list">
-								<tr>
-									<td>아이디</td>
-									<td>이름</td>
-									<td>권한</td>
-									<td>등록날짜</td>
-								</tr>
-								<tr th:each="list : ${adminList}">
-									<td><a th:text="${list.adminId}" th:href="@{/topadmin/modify/admin(adminId=${list.adminId})}" class="text-primary"></a></td>
-									<td th:text="${list.adminName}"></td>
-									<td th:text="${list.adminRight}"></td>
-									<td th:text="${list.adminRegisterDate}"></td>
-								</tr>
-							</table>
-							<div class="insertBtn">
-								<a th:href="@{/topadmin/add/admin}">
-									<button type="button" class="btn">관리자 등록</button>
-								</a>
-							</div>
-	                    </div>
-	                	<div id="mypage-content-profit-management" class="tab-pane">
-	                		<h2>수익관리</h2>
-	                	</div>
-	                </div>
-	            </div>
-			</div>
+<th:block layout:fragment="tabContentAdmin">
+	<!-- 관리자 목록 -->
+	<h2>관리자 목록</h2>
+	<div class="sub-sub-content">
+		<table class="table gift-table">
+			<tr>
+				<td>아이디</td>
+				<td>이름</td>
+				<td>권한</td>
+				<td>등록날짜</td>
+			</tr>
+			<tr th:each="list : ${adminList}">
+				<td><a th:text="${list.adminId}" th:href="@{/topadmin/modify/admin(adminId=${list.adminId})}" class="text-primary"></a></td>
+				<td th:text="${list.adminName}"></td>
+				<td th:text="${list.adminRight}"></td>
+				<td th:text="${list.adminRegisterDate}"></td>
+			</tr>
+		</table>
+		<div class="insertBtn">
+			<a th:href="@{/topadmin/add/admin}" class="btn">
+				<button type="button" class="btn">관리자 등록</button>
+			</a>
 		</div>
-	</div>	
+	</div>
+</th:block>
 </html>

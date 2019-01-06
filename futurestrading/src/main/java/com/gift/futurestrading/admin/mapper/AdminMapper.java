@@ -2,6 +2,7 @@ package com.gift.futurestrading.admin.mapper;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,6 +16,10 @@ import com.gift.futurestrading.sign.vo.OrderBuyVo;
 import com.gift.futurestrading.sign.vo.OrderSellVo;
 @Mapper
 public interface AdminMapper {
+	/*수익관리 select에 셋팅되어있는 연도-1 데이터 조회 (ex.2017년)*/
+	List<Map<String,Object>> selectProfitDetail2(String year);
+	/*수익관리 select에 처음 셋팅되어있는 연도별 데이터 조회 (ex.2018년)*/
+	List<Map<String,Object>> selectProfitDetail(String year);
 	/*관리자 비밀번호 체크*/
 	String selectAdminPassword(HashMap<String, Object> idAndPassword);
 	/*관리자 리스트*/

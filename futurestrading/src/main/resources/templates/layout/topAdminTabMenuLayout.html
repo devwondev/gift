@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<!-- config  -->
+<head th:replace="layout/config :: configFragment"></head>
+
+<!-- header -->
+<header th:replace="layout/header :: headerFragment"></header>
+
+<div class="container mypage">
+     <div class="row">
+       	<!-- 탭메뉴 -->
+		<div class="col-md-3 mypage-nav">
+			<ul class="nav flex-column">
+			    <li class="nav-item">
+			      <a class="nav-link" id="nav-admin" th:href="@{/topadmin/list/admin}">관리자관리</a>
+			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" id="nav-profit" th:href="@{/topadmin/get/profit/detail}">수익관리</a>
+			    </li>
+			</ul>
+		</div>
+		<!-- 탭컨텐츠 -->
+		<!-- mypage content -->
+		<div class="col-md-9">
+			<div class="mypage-content tab-content">
+				<div id="topadmin-tab-admin" class="tab-pane" data-toggle="tab">
+				    <div layout:fragment="tabContentAdmin"></div>
+				</div>
+				<div id="topadmin-tab-profit" class="tab-pane">
+					<div layout:fragment="tabContentProfit"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- footer -->
+<footer th:replace="layout/footer :: footerFragment"></footer>
+
+</html>
