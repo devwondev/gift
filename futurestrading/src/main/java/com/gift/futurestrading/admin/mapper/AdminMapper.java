@@ -1,11 +1,8 @@
 package com.gift.futurestrading.admin.mapper;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.ibatis.annotations.Mapper;
-
 import com.gift.futurestrading.admin.vo.AdminVo;
 import com.gift.futurestrading.member.vo.AccountConsumerVo;
 import com.gift.futurestrading.member.vo.ConsumerVo;

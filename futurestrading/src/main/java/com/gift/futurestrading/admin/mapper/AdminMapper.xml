@@ -163,13 +163,12 @@
 			order_buy_date as orderBuyDate,
 			order_buy_final_pay_date as orderBuyFinalPayDate
 		FROM order_buy
-		WHERE order_buy_status='미체결'
 		ORDER BY order_buy_pk DESC
 		LIMIT #{pageStart}, #{perPageNum}
 	</select>
 	<!-- 매수주문리스트 전체 행 구하기 위한 select-->
 	<select id="selectOrderBuyAllCount" resultType="int">
-		SELECT COUNT(*) FROM order_buy WHERE order_buy_status='미체결'
+		SELECT COUNT(*) FROM order_buy
 	</select>
 	<!-- 매도주문리스트 조회하기 위한 select -->
 	<select id="selectOrderSellAll" resultType="com.gift.futurestrading.sign.vo.OrderSellVo" parameterType="com.gift.futurestrading.page.vo.Criteria">
@@ -182,12 +181,11 @@
 			order_sell_date as orderSellDate,
 			order_sell_final_pay_date as orderSellFinalPayDate
 		FROM order_sell
-		WHERE order_sell_status='미체결'
 		ORDER BY order_sell_pk DESC
 		LIMIT #{pageStart}, #{perPageNum}
 	</select>
 	<!-- 매도주문리스트 전체 행 구하기 위한 select-->
 	<select id="selectOrderSellAllCount" resultType="int">
-		SELECT COUNT(*) FROM order_sell WHERE order_sell_status='미체결'
+		SELECT COUNT(*) FROM order_sell
 	</select>
 </mapper>

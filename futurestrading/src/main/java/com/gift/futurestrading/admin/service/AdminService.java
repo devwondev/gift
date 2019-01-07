@@ -1,12 +1,11 @@
 package com.gift.futurestrading.admin.service;
-
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.gift.futurestrading.admin.mapper.AdminMapper;
 import com.gift.futurestrading.admin.vo.AdminVo;
 import com.gift.futurestrading.member.vo.AccountConsumerVo;
@@ -16,33 +15,42 @@ import com.gift.futurestrading.member.vo.SellerVo;
 import com.gift.futurestrading.page.vo.Criteria;
 import com.gift.futurestrading.sign.vo.OrderBuyVo;
 import com.gift.futurestrading.sign.vo.OrderSellVo;
-
 @Service
 public class AdminService {
 	@Autowired
 	private AdminMapper adminMapper;
 	
 	/** 수익관리 차트
-	 * year-1관련 차트 select
-	 * @param String year
-	 * @return profitDetail
-	 * @since JDK1.8
-	 */
-	public List<Map<String,Object>> getProfitDetail2(String year) {
-		System.out.println("AdminService.getProfitDetail2() 호출");
-		List<Map<String,Object>> profitDetail = adminMapper.selectProfitDetail2(year);
-		return profitDetail;
-	}
-	/** 수익관리 차트
 	 * year관련 차트 select
 	 * @param String year
-	 * @return profitDetail
+	 * @return biglist
 	 * @since JDK1.8
 	 */
-	public List<Map<String,Object>> getProfitDetail(String year) {
+	public Map<Object, List<Integer>> getProfitDetail(String year) {
 		System.out.println("AdminService.getProfitDetail() 호출");
+		/* view부분 select의 연도에 해당하는 데이터 가져옴 */
 		List<Map<String,Object>> profitDetail = adminMapper.selectProfitDetail(year);
-		return profitDetail;
+		System.out.println(profitDetail.get(0).get("profitPerMonth"));
+		List<Integer> list = new ArrayList<>();
+			for(int i = 0; i < profitDetail.size(); i++) {
+				int totalProfit = ((BigDecimal) profitDetail.get(i).get("profitPerMonth")).intValue();
+				list.add(i,totalProfit);
+			}
+			System.out.println("list : "+list);
+		
+		List<Map<String,Object>> profitDetail2 = adminMapper.selectProfitDetail2(year);
+		List<Integer> list2 = new ArrayList<>();
+			for(int i = 0; i < profitDetail2.size(); i++) {
+				int totalProfit = ((BigDecimal) profitDetail2.get(i).get("profitPerMonth")).intValue();
+				list2.add(i,totalProfit);
+			}
+			System.out.println("list2 : "+list2);
+		
+		Map<Object, List<Integer>> biglist = new HashMap<>();
+		biglist.put("year", list);
+		biglist.put("year2", list2);
+		
+		return biglist;
 	}
 	/** 관리자 비밀번호확인
 	 * 관리자 비밀번호 select
@@ -53,6 +61,13 @@ public class AdminService {
 	public String adminPasswordCheck(HashMap<String, Object> idAndPassword) {
 		System.out.println("AdminService.adminPasswordCheck() 호출");
 		String idResult = adminMapper.selectAdminPassword(idAndPassword);
+			if(idResult != null) {
+				System.out.println("현재 비밀번호 일치");
+				idResult = "일치";
+			} else {
+				System.out.println("현재 비밀번호 불일치");
+				idResult = "불일치";
+			}
 		return idResult;
 	}
 	/** 관리자 삭제
@@ -67,13 +82,22 @@ public class AdminService {
 	/** 최고관리자 비밀번호확인
 	 * 최고관리자 비밀번호 select
 	 * @param String topAdminPassword
-	 * @return passwordCheck
+	 * @return password
 	 * @since JDK1.8
 	 */
 	public String checkTopAdmin(String topAdminPassword) {
 		System.out.println("AdminService.checkTopAdmin() 호출");
 		String passwordCheck = adminMapper.selectTopAdminPassword(topAdminPassword);
-		return passwordCheck;
+			/*입력한 비밀번호와 최고관리자의 비밀번호를 비교 후 결과를 리턴*/
+			String password = null;
+			if(passwordCheck != null) {
+				System.out.println("최고관리자 비밀번호 일치");
+				password = "일치";
+			} else {
+				System.out.println("최고관리자 비밀번호 불일치");
+				password = "불일치";
+			}
+		return password;
 	}
 	/** 관리자 수정처리
 	 * 관리자 수정 update
@@ -117,6 +141,14 @@ public class AdminService {
 	public int inputIdcheck(String inputAdminId) {
 		System.out.println("AdminService.inputIdcheck() 호출");
 		int countId = adminMapper.selectInputAdminId(inputAdminId);
+			if(countId == 1) {
+				System.out.println("중복 아이디 존재");
+				countId = 1;
+			} else {
+				System.out.println("사용 가능한 아이디");
+				countId = 0;
+			}
+			System.out.println(countId+"<---countId");	
 		return countId;
 	}
 	/** 관리자 리스트

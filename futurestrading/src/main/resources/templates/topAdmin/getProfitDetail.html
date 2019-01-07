@@ -38,17 +38,7 @@
 			/* Highcharts data연결 */
 			$.post('/topadmin/get/profit/per/year', data, function (data) {
 				console.log(data);
-				
- 	  			var data0 = data[0].profitPerMonth; var data1 = data[1].profitPerMonth; var data2 = data[2].profitPerMonth;
-				var data3 = data[3].profitPerMonth; var data4 = data[4].profitPerMonth; var data5 = data[5].profitPerMonth;
-				var data6 = data[6].profitPerMonth; var data7 = data[7].profitPerMonth; var data8 = data[8].profitPerMonth;
-				var data9 = data[9].profitPerMonth; var data10 = data[10].profitPerMonth; var data11 = data[11].profitPerMonth;
-				
-				var data12 = data[12].profitPerMonth; var data13 = data[13].profitPerMonth; var data14 = data[14].profitPerMonth;
-				var data15 = data[15].profitPerMonth; var data16 = data[16].profitPerMonth; var data17 = data[17].profitPerMonth;
-				var data18 = data[18].profitPerMonth; var data19 = data[19].profitPerMonth; var data20 = data[20].profitPerMonth;
-				var data21 = data[21].profitPerMonth; var data22 = data[22].profitPerMonth; var data23 = data[23].profitPerMonth;
-				
+			
 				Highcharts.setOptions({
 					lang: {
 					thousandsSep: ','
@@ -101,10 +91,10 @@
 				    },
 				    series: [{
 				        name: $('#year').val()-1,
-				        data: [data12, data13, data14, data15, data16, data17, data18, data19, data20, data21, data22, data23]
+				        data: data.year2
 				    }, {
 				        name: $('#year').val(),
-				        data: [data0, data1, data2, data3, data4, data5, data6, data7, data8, data9, data10, data11]
+				        data: data.year
 				    }]
 				});
 			}, 'json');
@@ -113,17 +103,7 @@
 		data = $('#year').val();
 		$.post('/topadmin/get/profit/per/year', data, function (data) {
 			console.log(data);
-			
-  			var data0 = data[0].profitPerMonth; var data1 = data[1].profitPerMonth; var data2 = data[2].profitPerMonth;
-			var data3 = data[3].profitPerMonth; var data4 = data[4].profitPerMonth; var data5 = data[5].profitPerMonth;
-			var data6 = data[6].profitPerMonth; var data7 = data[7].profitPerMonth; var data8 = data[8].profitPerMonth;
-			var data9 = data[9].profitPerMonth; var data10 = data[10].profitPerMonth; var data11 = data[11].profitPerMonth;
-			
-			var data12 = data[12].profitPerMonth; var data13 = data[13].profitPerMonth; var data14 = data[14].profitPerMonth;
-			var data15 = data[15].profitPerMonth; var data16 = data[16].profitPerMonth; var data17 = data[17].profitPerMonth;
-			var data18 = data[18].profitPerMonth; var data19 = data[19].profitPerMonth; var data20 = data[20].profitPerMonth;
-			var data21 = data[21].profitPerMonth; var data22 = data[22].profitPerMonth; var data23 = data[23].profitPerMonth;
-
+		
 			Highcharts.setOptions({
 				lang: {
 				thousandsSep: ','
@@ -177,10 +157,10 @@
 			    },
 			    series: [{
 			        name: $('#year').val()-1,
-			        data: [data12, data13, data14, data15, data16, data17, data18, data19, data20, data21, data22, data23]
+			        data: data.year2
 			    }, {
 			        name: $('#year').val(),
-			        data: [data0, data1, data2, data3, data4, data5, data6, data7, data8, data9, data10, data11]
+			        data: data.year
 			    }]
 			});
 		}, 'json');

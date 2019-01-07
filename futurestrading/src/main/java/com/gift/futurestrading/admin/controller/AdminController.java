@@ -1,12 +1,9 @@
 package com.gift.futurestrading.admin.controller;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.gift.futurestrading.admin.service.AdminService;
 import com.gift.futurestrading.admin.vo.AdminVo;
 import com.gift.futurestrading.member.vo.AccountConsumerVo;
@@ -27,7 +23,6 @@ import com.gift.futurestrading.page.vo.Criteria;
 import com.gift.futurestrading.page.vo.PageMaker;
 import com.gift.futurestrading.sign.vo.OrderBuyVo;
 import com.gift.futurestrading.sign.vo.OrderSellVo;
-
 @Controller
 public class AdminController {
 	@Autowired
@@ -40,16 +35,14 @@ public class AdminController {
 	 */	
 	@RequestMapping(value="/topadmin/get/profit/per/year", method=RequestMethod.POST)
 	@ResponseBody
-	public List<Map<String,Object>> getProfitPerYear(@RequestBody String getYear) {
+	public Map<Object, List<Integer>> getProfitPerYear(@RequestBody String getYear) {
 		System.out.println("AdminController.getProfitPerYear() 호출");
 		/* year를 출력하면 '2018=' 이런식으로 받아와져서 잘라줌 */
 		String year = getYear.substring(0,4);
 		System.out.println(year + "<--- year");
 		/* year에 해당하는 차트를 가져옴 */
-		List<Map<String,Object>> profitDetail = adminService.getProfitDetail(year);
-		/* year-1에 해당하는 차트를 가져와서 추가 */
-		profitDetail.addAll(adminService.getProfitDetail2(year));
-		return profitDetail;
+		Map<Object, List<Integer>> biglist = adminService.getProfitDetail(year);
+		return biglist;
 	}
 	/** 수익관리 첫화면 연결
 	 * 수익관리로 이동하면 처음 보이는 화면
@@ -77,13 +70,6 @@ public class AdminController {
 		System.out.println(idAndPassword.get("adminPassword") + "<-- adminPassword(ajax)");
 		String idResult = adminService.adminPasswordCheck(idAndPassword);
 		System.out.println(idResult + "<-- idResult");
-			if(idResult != null) {
-				System.out.println("현재 비밀번호 일치");
-				idResult = "일치";
-			} else {
-				System.out.println("현재 비밀번호 불일치");
-				idResult = "불일치";
-			}
 		return idResult;
 	}
 	/** 최고관리자 비밀번호 확인(ajax)
@@ -97,16 +83,7 @@ public class AdminController {
 	public String checkTopAdminPassword(@RequestBody String topAdminPassword) {
 		System.out.println("AdminController.checkTopAdminPassword() 최고관리자 비밀번호확인");
 		System.out.println(topAdminPassword + "<-- topAdminPassword");
-		String password = null;
-		String passwordCheck = adminService.checkTopAdmin(topAdminPassword);
-			/*입력한 비밀번호와 최고관리자의 비밀번호를 비교 후 결과를 리턴*/
-			if(passwordCheck != null) {
-				System.out.println("최고관리자 비밀번호 일치");
-				password = "일치";
-			} else {
-				System.out.println("최고관리자 비밀번호 불일치");
-				password = "불일치";
-			}
+		String password = adminService.checkTopAdmin(topAdminPassword);
 		return password;
 	}
 	/** 관리자 삭제액션
@@ -179,14 +156,6 @@ public class AdminController {
 		System.out.println("AdminController.adminIdcheck() 아이디 중복체크");
 		System.out.println(inputAdminId + "<---inputAdminId");
 		int countId = adminService.inputIdcheck(inputAdminId);
-			if(countId == 1) {
-				System.out.println("중복 아이디 존재");
-				countId = 1;
-			} else {
-				System.out.println("사용 가능한 아이디");
-				countId = 0;
-			}
-		System.out.println(countId+"<---countId");	
 		return countId;
 	}
 	/** 관리자 등록액션
