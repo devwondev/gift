@@ -26,4 +26,5 @@ public interface OrderSellMapper {
 	List<OrderSellVo> selectOrderSellAll(HashMap<String, Object> map);
 	/*판매자의 전체 행 구하기위한 select*/
 	int selectOrderSellAllCount(String id);
+	int selectClosePriceItemOne();
 }

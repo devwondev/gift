@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.gift.futurestrading.member.vo.SellerVo;
 import com.gift.futurestrading.order.mapper.OrderSellMapper;
-import com.gift.futurestrading.order.vo.OrderBuyListVo;
 import com.gift.futurestrading.order.vo.OrderSellVo;
 import com.gift.futurestrading.page.vo.Criteria;
 
@@ -88,13 +87,25 @@ public class OrderSellService {
 	 * @since JDK1.8
 	 */
 	public List<OrderSellVo> getSellerOrderViewBottom(String id, Criteria cri) {
-		System.out.println("OrderBuyService.getOrderBuyList() 호출");		
+		System.out.println("OrderSellService.getOrderSellList() 호출");		
 		HashMap<String , Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("pageStart", cri.getPageStart());
 		map.put("perPageNum", 5);
 		List<OrderSellVo> sellerList = orderSellMapper.selectOrderSellAll(map);
 		return sellerList;
+	}
+	/**
+	 * 종가조회
+	 * 품목에 따른 종가조회에 필요한 메서드
+	 * @param map 
+	 * @return 
+	 * @since JDK1.8
+	 */
+	public int getClosePriceItemOne() {
+		System.out.println("OrderSellService.getClosePriceItemOne() 호출");	
+		int getClosingPriceResult = orderSellMapper.selectClosePriceItemOne();
+		return getClosingPriceResult;
 	}
 	
 }

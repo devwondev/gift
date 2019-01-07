@@ -47,4 +47,11 @@
 	<select id="selectOrderSellAllCount" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM order_sell where fk_seller__order_sell=#{id}
 	</select>
+	<select id="selectClosePriceItemOne" resultType="int">
+		SELECT closing_price as closingPrice
+		FROM all_price
+		WHERE
+		item_name='청양고추'
+		ORDER BY all_price_date DESC LIMIT 1;
+	</select>
 </mapper>

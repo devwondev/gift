@@ -347,7 +347,7 @@
                                                 </tr>
                                                <tr>
                                                 	<th>종가</th>
-                                            		<td><input type="text" class="form-control marketClosing" value="34200" name="orderSellPerPrice" readonly></td>
+                                            		<td><input type="text" class="form-control marketClosing" th:value="${closingPrice}" name="orderSellPerPrice" readonly></td>
                                             	</tr>
                                                 <tr>
                                                     <th>수량</th>
@@ -383,7 +383,7 @@
                                                 </tr>
                                                 <tr>
                                                       <th>지정최고가</th>
-                                                    <td><input type="text" class="form-control selectPrice" name="orderSellPerPrice" id="selectPrice"  placeholder="34230"></td>
+                                                    <td><input type="text" class="form-control selectPrice" name="orderSellPerPrice" id="selectPrice"  th:value="${closingPrice}"></td>
                                                 </tr>
                                                                                                 <tr>
                                                     <th>수량</th>

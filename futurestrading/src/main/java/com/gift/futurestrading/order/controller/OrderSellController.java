@@ -47,6 +47,7 @@ public class OrderSellController {
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(orderSellService.getSellerOrderAllCount(id));
 		model.addAttribute("pageMaker", pageMaker);
+
 		return "order/seller/listOrder";
 	}
 	 
@@ -70,6 +71,9 @@ public class OrderSellController {
 		pageMaker.setTotalCount(orderSellService.getSellerOrderAllCount(id));
 		System.out.println(orderSellService.getSellerOrderAllCount(id));
 		model.addAttribute("pageMaker", pageMaker);
+		/*종가가져옴*/
+		int getClosingPriceResult = orderSellService.getClosePriceItemOne();
+		model.addAttribute("closingPrice", getClosingPriceResult);
 		return "order/seller/addMemeberSellerOrderPepper";
 	}
 	
