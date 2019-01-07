@@ -1,7 +1,11 @@
 package com.gift.futurestrading.login.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +70,7 @@ public class LoginController {
 	 * @since JDK1.8
 	 */
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session){
 		System.out.println("LoginController.logout() 호출 GET");
 		session.invalidate();
 		return "redirect:/";
