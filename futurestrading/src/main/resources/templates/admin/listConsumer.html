@@ -52,11 +52,16 @@ table.consumer-data-table th, table.consumer-data-table td {
 }
 
 .btn-detail {
-    width: 100%;
-    background-color: #3d90e2;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
+	width: 100%;
+	background-color: #3d90e2;
+	color: #fff;
+	border: none;
+	border-radius: 3px;
+}
+
+.chartBtn {
+	border-color: #3d90e2;
+	background-color: #fff;
 }
 
 ul.pagination li.page-item a {
@@ -76,107 +81,85 @@ ul.pagination li.page-item.active a {
 	<script type="text/javascript"
 		th:src="@{/webjars/highcharts/6.2.0/highstock.js}"></script>
 	<script type="text/javascript">
-		$(document).ready(function(){
-			/* side menu */
-			$("#nav-consumer").addClass("active");
-			$("#admin-tab-consumer").addClass("active");
-			/* consumer chart */
-			$.getJSON('/admin/get/consumer/month/chart',
-					function(data) {
-						console.log(data + '<--data')
-						Highcharts.chart('consumerChart',
-								{
+		$(document).ready(
+				function() {
+					/* side menu */
+					$("#nav-consumer").addClass("active");
+					$("#admin-tab-consumer").addClass("active");
+					/* 현재 년도와 전년도 차트 */
+					// 현재 년도를 2019년도로 설정
+					var year = '2019';
+					// 차트 보여줌
+					$.post('/admin/get/consumer/month/chart', year, function(
+							data) {
 
-									chart : {
-
-										type : 'line'
-
-									},
-
-									title : {
-
-										text : '구매자 회원가입 현황(월별)'
-
-									},
-
-									subtitle : {
-
-										text : '매수자',
-
-										x : -20
-
-									},
-
-									xAxis : {
-
-										title : {
-
-											text : '연도-월'
-
-										},
-
-										categories : [ '01',
-												'02', '03',
-												'04', '05',
-												'06', '07',
-												'08', '09',
-												'10', '11',
-												'12']
-
-									},
-
-									yAxis : {
-
-										title : {
-
-											text : '가입회원수'
-
-										},
-
-										plotLines : [ {
-
-											value : 0,
-
-											width : 1,
-
-											color : '#808080'
-
-										} ]
-
-									},
-
-									series : [ {
-
-										name : '회원수',
-
-										data : data
-
-									} ],
-
-									legend : {
-
-										layout : 'vertical',
-
-										align : 'right',
-
-										verticalAlign : 'middle',
-
-										borderWidth : 0
-
-									},
-
-									tooltip : {
-
-										valueSuffix : '명'
-
+						Highcharts.chart('consumerChart', {
+							chart : {
+								type : 'column', // 세로막대 차트 모양
+								backgroundColor : null,
+								style : {
+									fontFamily : 'Dosis, sans-serif'
+								}
+							},
+							title : {
+								text : '구매자 회원가입 현황',
+								style : {
+									fontSize : '16px',
+									textTransform : 'uppercase'
+								}
+							},
+							subtitle : {
+								text : '월별 현황'
+							},
+							xAxis : {
+								categories : [ '1', '2', '3', '4', '5', '6',
+										'7', '8', '9', '10', '11', '12' ]
+							// 월별로 보여줌
+							},
+							yAxis : {
+								minorTickInterval : 'auto',
+								title : {
+									text : '가입회원수',
+									style : {
+										textTransform : 'uppercase'
 									}
+								},
+								labels : {
+									style : {
+										fontSize : '12px'
+									}
+								}
+							},
+							tooltip : {
 
-								});
-					});
-	    });
+								valueSuffix : '명' // 값다음에 붙임
+
+							},
+							plotOptions : {
+								line : {
+									dataLabels : {
+										enabled : true
+									},
+									enableMouseTracking : false
+								}
+							},
+							series : [ {
+								name : year, // 년도
+								data : data.year
+							// 현재 년도
+							}, {
+								name : year - 1, // 현재 년도에서 -1
+								data : data.yearBefore
+							// 작년
+							} ]
+						});
+					}, 'json');
+
+				});
 	</script>
 </th:block>
-<th:block layout:fragment="tabContentConsumer" class="main-box container">
+<th:block layout:fragment="tabContentConsumer"
+	class="main-box container">
 	<h2 class="title-style">구매자</h2>
 	<div id="consumerChart"></div>
 	<table class="consumer-data-table list">
@@ -206,11 +189,10 @@ ul.pagination li.page-item.active a {
 			<td th:text="${list.consumerSignUpDate}"></td>
 			<td th:text="${list.consumerStatus}"></td>
 			<td th:text="${list.consumerAdmitCheckFlag}"></td>
-			<td>
-				<a th:href="@{/admin/get/consumer/account/one(consumerIdPk=${list.consumerIdPk})}">
+			<td><a
+				th:href="@{/admin/get/consumer/account/one(consumerIdPk=${list.consumerIdPk})}">
 					<button class="btn-detail">계좌정보</button>
-				</a>
-			</td>
+			</a></td>
 		</tr>
 	</table>
 	<p class="blank"></p>

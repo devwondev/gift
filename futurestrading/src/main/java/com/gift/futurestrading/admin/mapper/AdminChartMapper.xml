@@ -3,30 +3,67 @@
 <mapper
 	namespace="com.gift.futurestrading.admin.mapper.AdminChartMapper">
 	<!-- chart -->
-	<!-- 월별 구매자 회원가입 현황 차트 구현위한 select -->
-	<select id="selectConsumerMonthChart" resultType="map">
-		SELECT count(*) as count
+	<!-- 월별 구매자 회원가입 현황 차트 구현위한 select (현재년도2019) -->
+	<select id="selectConsumerMonthChart" parameterType="String"
+		resultType="map">
+		SELECT
+		count(*)
+		as count
 		FROM consumer
-		GROUP BY month(consumer_sign_up_date)
-		ORDER BY consumer_sign_up_date
+		WHERE
+		consumer_sign_up_date like
+		CONCAT(#{year},'%')
+		GROUP BY
+		DATE_FORMAT(consumer_sign_up_date,'%Y%m');
 	</select>
-	<!-- 월별 판매자 회원가입 현황 차트 구현위한 select -->
-	<select id="selectSellerMonthChart" resultType="map">
-		SELECT count(*) as count
-		FROM seller
-		GROUP BY month(seller_sign_up_date)
-		ORDER BY seller_sign_up_date
+	<!-- 월별 구매자 회원가입 현황 차트 구현위한 select (2018) -->
+	<select id="selectConsumerMonthChartBefore"
+		parameterType="String" resultType="map">
+		SELECT
+		count(*) as count
+		FROM
+		consumer
+		WHERE consumer_sign_up_date like CONCAT(#{year}-1,'%')
+		GROUP BY
+		DATE_FORMAT(consumer_sign_up_date,'%Y%m');
+	</select>
+	<!-- 월별 판매자 회원가입 현황 차트 구현위한 select (현재년도2019) -->
+	<select id="selectSellerMonthChart" parameterType="String"
+		resultType="map">
+		SELECT
+		count(*) as count
+		FROM
+		seller
+		WHERE seller_sign_up_date
+		like CONCAT(#{year},'%')
+		GROUP BY
+		DATE_FORMAT(seller_sign_up_date,'%Y%m');
+	</select>
+	<!-- 월별 판매자 회원가입 현황 차트 구현위한 select (2018) -->
+	<select id="selectSellerMonthChartBefore" parameterType="String"
+		resultType="map">
+		SELECT
+		count(*) as count
+		FROM
+		seller
+		WHERE seller_sign_up_date
+		like CONCAT(#{year}-1,'%')
+		GROUP BY
+		DATE_FORMAT(seller_sign_up_date,'%Y%m');
 	</select>
 	<!-- 월별 매수주문 차트 구현위한 select -->
-	<select id="selectOrderBuyMonthChart" resultType="map">
+	<select id="selectOrderBuyMonthChart" parameterType="String"
+		resultType="map">
 		SELECT
-		COUNT(*) as count
+		COUNT(*)
+		as count
 		FROM order_buy
 		WHERE
 		fk_item_detail__order_buy='goods_detail01'
 		AND order_buy_status='미체결'
 		GROUP BY month(order_buy_date)
-		ORDER BY order_buy_date
+		ORDER BY
+		order_buy_date
 	</select>
 	<!-- 월별 매도주문 차트 구현위한 select -->
 	<select id="selectOrderSellMonthChart" resultType="map">

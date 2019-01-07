@@ -68,104 +68,82 @@ ul.pagination li.page-item.active a {
 	<script type="text/javascript"
 		th:src="@{/webjars/highcharts/6.2.0/highstock.js}"></script>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			/* side menu */
-			$("#nav-seller").addClass("active");
-			$("#admin-tab-seller").addClass("active");
-			/* seller chart */
-			$.getJSON('/admin/get/seller/month/chart',
-					function(data) {
-						console.log(data + '<--data')
-						Highcharts.chart('sellerChart',
-								{
+		$(document).ready(
+				function() {
+					/* side menu */
+					$("#nav-seller").addClass("active");
+					$("#admin-tab-seller").addClass("active");
+					/* seller chart */
+					/* 현재 년도와 전년도 차트 */
+					// 현재 년도를 2019년도로 설정
+					var year = '2019';
+					// 차트 보여줌
+					$.post('/admin/get/seller/month/chart', year, function(data) {
 
+								Highcharts.chart('sellerChart', {
 									chart : {
-
-										type : 'line'
-
+										type : 'column', // 세로막대 차트 모양
+										backgroundColor : null,
+										style : {
+											fontFamily : 'Dosis, sans-serif'
+										}
 									},
-
 									title : {
-
-										text : '판매자 회원가입 현황(월별)'
-
+										text : '판매자 회원가입 현황',
+										style : {
+											fontSize : '16px',
+											textTransform : 'uppercase'
+										}
 									},
-
 									subtitle : {
-
-										text : '매도자',
-
-										x : -20
-
+										text : '월별 현황'
 									},
-
 									xAxis : {
-
-										title : {
-
-											text : '연도-월'
-
-										},
-
-										categories : [ '01',
-											'02', '03',
-											'04', '05',
-											'06', '07',
-											'08', '09',
-											'10', '11',
-											'12']
-
+										categories : [ '1', '2', '3', '4', '5',
+												'6', '7', '8', '9', '10', '11',
+												'12' ]
+									// 월별로 보여줌
 									},
-
 									yAxis : {
-
+										minorTickInterval : 'auto',
 										title : {
-
-											text : '가입회원수'
-
+											text : '가입회원수',
+											style : {
+												textTransform : 'uppercase'
+											}
 										},
-
-										plotLines : [ {
-
-											value : 0,
-
-											width : 1,
-
-											color : '#808080'
-
-										} ]
-
+										labels : {
+											style : {
+												fontSize : '12px'
+											}
+										}
 									},
-
-									series : [ {
-
-										name : '회원수',
-
-										data : data
-
-									} ],
-
-									legend : {
-
-										layout : 'vertical',
-
-										align : 'right',
-
-										verticalAlign : 'middle',
-
-										borderWidth : 0
-
-									},
-
 									tooltip : {
 
-										valueSuffix : '명'
+										valueSuffix : '명' // 값다음에 붙임
 
-									}
-
+									},
+									plotOptions : {
+										line : {
+											dataLabels : {
+												enabled : true
+											},
+											enableMouseTracking : false
+										}
+									},
+									series : [ {
+										name : year, // 년도
+										data : data.year
+									// 현재 년도
+									}, {
+										name : year - 1, // 현재 년도에서 -1
+										data : data.yearBefore
+									// 작년
+									} ]
 								});
-					});
-		});
+							}, 'json');
+
+				});
 	</script>
 </th:block>
 <th:block layout:fragment="tabContentSeller" class="main-box container">

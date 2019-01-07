@@ -1,10 +1,12 @@
 package com.gift.futurestrading.admin.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,11 +27,16 @@ public class AdminChartController {
 	 * @return consumerChart
 	 * @since JDK1.8
 	 */
-	@RequestMapping(value="/admin/get/consumer/month/chart", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/get/consumer/month/chart", method=RequestMethod.POST)
 	@ResponseBody
-	public List<List<Long>> getConsumerMonthChart(){
+	public Map<Object, List<Long>> getConsumerMonthChart(@RequestBody String year){
 		System.out.println("AdminChartController.getConsumerMonthChart()호출");
-		List<List<Long>> consumerChart = adminChartService.getConsumerMonthChart();
+		// ajax에서 년도 받아올때 뒤에 =가 붙어서 잘라줌(이유 모름)
+		String yearParam = year.substring(0,4);
+		System.out.println(yearParam + "<--- yearParam");
+		
+		// 서비스에서 현재년도와 전년도에 관한 메서드 선언해서 그거 불러옴
+		Map<Object, List<Long>> consumerChart = adminChartService.getConsumerMonthChart(yearParam);
 		return consumerChart;
 	}
 	
@@ -39,11 +46,15 @@ public class AdminChartController {
 	 * @return sellerChart
 	 * @since JDK1.8
 	 */
-	@RequestMapping(value="/admin/get/seller/month/chart", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/get/seller/month/chart", method=RequestMethod.POST)
 	@ResponseBody
-	public List<List<Long>> getConsumerSellerChart(){
-		System.out.println("AdminChartController.getConsumerSellerChart()호출");
-		List<List<Long>> sellerChart = adminChartService.getSellerMonthChart();
+	public Map<Object, List<Long>> getSellerMonthChart(@RequestBody String year){
+		System.out.println("AdminChartController.getSellerMonthChart()호출");
+		
+		String yearParam = year.substring(0,4);
+		System.out.println(yearParam + "<--- yearParam");
+		
+		Map<Object, List<Long>> sellerChart = adminChartService.getSellerMonthChart(yearParam);
 		return sellerChart;
 	}
 	
