@@ -322,4 +322,10 @@ public class ConsumerController {
 
 		return count;
 	}
+	@RequestMapping(value="/consumer/consumerWalletMoney", method=RequestMethod.GET)
+	public String ConsumerWalletMoney() {
+		System.out.println("ConsumerController.ConsumerMyWllet() 호출");
+
+		return "member/consumer/consumerWalletMoney";
+	}
 }

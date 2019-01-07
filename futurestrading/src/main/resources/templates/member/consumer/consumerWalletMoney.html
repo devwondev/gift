@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	data-layout-decorate="~{layout/myWallrtTabMenuLayout}">
+<th:block layout:fragment="css">
+	<style>
+
+.blank {
+	margin-top: 100px;
+}
+
+.title-style {
+	font-size: 14pt;
+	font-weight: 300;
+	color: #404040;
+	border-bottom: 1px solid #e0e2e4;
+	padding-bottom: 10px;
+	margin-bottom: 40px;
+}
+
+.content-style {
+	font-size: 12pt;
+	font-weight: 200;
+	color: #404040;
+	padding-bottom: 10px;
+	margin-bottom: 40px;
+}
+
+table.consumer-data-table {
+	font-size: 10pt;
+	font-weight: 100;
+	width: 100%;
+	padding: 0;
+	word-break: keep-all;
+}
+
+table.consumer-data-table th, table.consumer-data-table td {
+	border: 1px solid #e0e2e4;
+	padding: 10px;
+	color: #404040;
+}
+
+.btn-detail {
+    width: 100%;
+    background-color: #3d90e2;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+}
+
+ul.pagination li.page-item a {
+	border: 1px solid #ccc !important;
+	border-radius: 0 !important;
+	padding: 5px 10px;
+	font-size: 8pt;
+}
+
+ul.pagination li.page-item.active a {
+	background-color: #3d90e2;
+	border: 1px solid #3d90e2 !important;
+}
+</style>
+</th:block>
+<th:block layout:fragment="script">
+	<script type="text/javascript"
+		th:src="@{/webjars/highcharts/6.2.0/highstock.js}"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			/* side menu */
+			$("#nav-consumer").addClass("active");
+			$("#admin-tab-consumer").addClass("active");
+			/* consumer chart */
+			// Data retrieved from http://vikjavev.no/ver/index.php?spenn=2d&sluttid=16.06.2015.
+				Highcharts.chart('container', {
+				    chart: {
+				        type: 'spline',
+				        scrollablePlotArea: {
+				            minWidth: 600,
+				            scrollPositionX: 1
+				        }
+				    },
+				    title: {
+				        text: '자산 관리 현황'
+				    },
+				    subtitle: {
+				        text: '자산 및 현재가격 '
+				    },
+				    xAxis: {
+				        type: 'datetime',
+				        labels: {
+				            overflow: 'justify'
+				        }
+				    },
+				    yAxis: {
+				        title: {
+				            text: '가격(단위: 천원)'
+				        },
+				        minorGridLineWidth: 0,
+				        gridLineWidth: 0,
+				        alternateGridColor: null,
+				        plotBands: [{ // Light air
+				            from: 0,
+				            to: 300,
+				            color: '#81F7F3',
+				            label: {
+				                text: '안전',
+				                style: {
+				                    color: '#606060'
+				                }
+				            }
+				        },{ // Gentle breeze
+				            from: 300,
+				            to: 500,
+				            color: '#A9F5D0',
+				            label: {
+				                text: '보통',
+				                style: {
+				                    color: '#606060'
+				                }
+				            }
+				        }, { // Moderate breeze
+				            from: 500,
+				            to: 750,
+				            color: '#F7BE81',
+				            label: {
+				                text: '주의',
+				                style: {
+				                    color: '#606060'
+				                }
+				            }
+				        }]
+				    },
+				    tooltip: {
+				        valueSuffix: ' 000원'
+				    },
+				    plotOptions: {
+				        spline: {
+				            lineWidth: 4,
+				            states: {
+				                hover: {
+				                    lineWidth: 5
+				                }
+				            },
+				            marker: {
+				                enabled: false
+				            },
+				            pointInterval: 3600000, // one hour
+				            pointStart: Date.UTC(2018, 1, 13, 0, 0, 0)
+				        }
+				    },
+				    series: [{
+				        name: '잔고 현황',
+				        data: [
+				            500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,
+				            500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,
+				            500,500,450,450,450,450
+				        ]
+	
+				    }, {
+				        name: '시장가격',
+				        data: [
+				            300,310,305,300,250,210,210,115,110,115,110,160,170,170,175,175,176,177,177,177,177,180,190,
+				            190,190,190,200,210,230,240,260,260,260,260,260,250,230,240,250,210,200,200,230,250,250,250
+				        ]
+				    }],
+				    navigation: {
+				        menuItemStyle: {
+				            fontSize: '10px'
+				        }
+				    }
+				});
+	    });
+	</script>
+	
+</th:block>
+<th:block layout:fragment="tabContentConsumer" class="main-box container">	
+	<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+</th:block>
+</html>
