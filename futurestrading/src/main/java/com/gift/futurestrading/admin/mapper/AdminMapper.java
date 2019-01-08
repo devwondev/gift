@@ -19,8 +19,10 @@ public interface AdminMapper {
 	List<Map<String,Object>> selectProfitDetail(String year);
 	/*관리자 비밀번호 체크*/
 	String selectAdminPassword(HashMap<String, Object> idAndPassword);
+	/*관리자 리스트 전체행을  구함*/
+	int selectAdminAllCount();
 	/*관리자 리스트*/
-	List<AdminVo> selectAdmin();
+	List<AdminVo> selectAdmin(Criteria cri);
 	/*관리자 등록*/
 	int insertAdmin(AdminVo adminVoRequest);
 	/*관리자 한 명의 수정폼 불러오기*/

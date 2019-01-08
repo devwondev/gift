@@ -6,11 +6,22 @@
 <th:block layout:fragment="css">
 	<style type="text/css">
 		.insertBtn{
-			text-align: center;
-			margin-top: 30px;
+			text-align: right;
+			margin-top: -15px;
+			margin-bottom: 5px;
 		}
 		.tab-content{
 			background-color: #fff;
+		}
+		ul.pagination li.page-item a {
+			border: 1px solid #ccc !important;
+			border-radius: 0 !important;
+			padding: 5px 10px;
+			font-size: 8pt;
+		}
+		ul.pagination li.page-item.active a {
+			background-color: #4556b8;
+			border: 1px solid #4556b8 !important;
 		}
 	</style>
 </th:block>
@@ -26,6 +37,11 @@
 <th:block layout:fragment="tabContentAdmin">
 	<!-- 관리자 목록 -->
 	<h2>관리자 목록</h2>
+	<div class="insertBtn">
+		<a th:href="@{/topadmin/add/admin}">
+			<button type="button" class="btn">관리자 등록</button>
+		</a>
+	</div>
 	<div class="sub-sub-content">
 		<table class="table gift-table">
 			<tr>
@@ -41,11 +57,17 @@
 				<td th:text="${list.adminRegisterDate}"></td>
 			</tr>
 		</table>
-		<div class="insertBtn">
-			<a th:href="@{/topadmin/add/admin}" class="btn">
-				<button type="button" class="btn">관리자 등록</button>
-			</a>
-		</div>
+		<ul class="pagination justify-content-center" id="firstPaging">
+	 		<li th:if="${pageMaker.prev} == true" class="page-item">
+            	<a class="page-link" th:href="@{/topadmin/list/admin(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum})}">&laquo;</a>
+        	</li>
+            <li class="page-item" th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"  th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+            	<a class="page-link" th:href="@{/topadmin/list/admin(page=${idx},perPageNum=${pageMaker.cri.perPageNum})}" th:text="${idx}"></a>
+            </li>
+            <li class="page-item" th:if="${pageMaker.next} == true and ${pageMaker.endPage >= 0}">
+            	<a class="page-link" th:href="@{/topadmin/list/admin(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum})}">&raquo;</a>
+            </li>
+		</ul>
 	</div>
 </th:block>
 </html>

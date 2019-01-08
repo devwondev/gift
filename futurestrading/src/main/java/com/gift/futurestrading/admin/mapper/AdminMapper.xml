@@ -59,14 +59,19 @@
 		<select id="selectInputAdminId" resultType="int">
 			Select Count(*) From view_total_id WHERE total_id = #{inputAdminId}
 		</select>
-	<!-- 관리자조회 -->
-	    <select id="selectAdmin" resultType="com.gift.futurestrading.admin.vo.AdminVo">
+	<!-- 관리자 리스트 전체 행을 구하기위한 select -->
+		<select id="selectAdminAllCount" resultType="int">
+			SELECT COUNT(*) FROM admin
+		</select>
+	<!-- 관리자조회(페이징) -->
+	    <select id="selectAdmin" parameterType="com.gift.futurestrading.page.vo.Criteria" resultType="com.gift.futurestrading.admin.vo.AdminVo">
 	        SELECT 
 	        	admin_id_pk as adminId, 
 	        	admin_name as adminName,
 	        	admin_right as adminRight,
 	        	admin_register_date as adminRegisterDate
 	        FROM admin
+	        LIMIT #{pageStart}, #{perPageNum}
 	    </select>
 	<!-- 구매자리스트(페이징포함)를 조회하기 위한 select -->
 	<select id="selectConsumerAll" resultType="com.gift.futurestrading.member.vo.ConsumerVo" parameterType="com.gift.futurestrading.page.vo.Criteria">

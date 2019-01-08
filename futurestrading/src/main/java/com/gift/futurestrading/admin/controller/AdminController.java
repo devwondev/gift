@@ -189,11 +189,15 @@ public class AdminController {
 	 * @since JDK1.8
 	 */
 	@RequestMapping(value="/topadmin/list/admin", method=RequestMethod.GET)
-	public String listAdmin(Model model,HttpSession session) {
+	public String listAdmin(Model model, HttpSession session, @ModelAttribute("cri") Criteria cri) {
 		System.out.println("AdminController.listAdmin() 관리자리스트");
 		model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
-		List<AdminVo> adminList = adminService.getAdmin();
+		List<AdminVo> adminList = adminService.getAdmin(cri);
 		model.addAttribute("adminList", adminList);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(adminService.getAdminAllCount());
+		model.addAttribute("pageMaker", pageMaker);
 		return "topAdmin/listAdmin";
 	}
 	/** 구매자 리스트

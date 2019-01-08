@@ -151,14 +151,25 @@ public class AdminService {
 			System.out.println(countId+"<---countId");	
 		return countId;
 	}
+	/**
+	 * 관리자 리스트 전체 행을 구하는 메서드
+	 * 
+	 * @return totalCount
+	 * @since JDK1.8
+	 */
+	public int getAdminAllCount() {
+		System.out.println("AdminService.getAdminAllCount() 호출");
+		int totalCount = adminMapper.selectAdminAllCount();
+		return totalCount;
+	}
 	/** 관리자 리스트
 	 * 관리자 리스트 select
 	 * @return adminList
 	 * @since JDK1.8
 	 */
-	public List<AdminVo> getAdmin(){
+	public List<AdminVo> getAdmin(Criteria cri){
 		System.out.println("AdminService.getAdmin() 호출");
-		List<AdminVo> adminList = adminMapper.selectAdmin();
+		List<AdminVo> adminList = adminMapper.selectAdmin(cri);
 		return adminList;
 	}
 	/** 구매자 리스트
