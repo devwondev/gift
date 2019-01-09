@@ -1,5 +1,6 @@
 package com.gift.futurestrading.member.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,12 +13,30 @@ import com.gift.futurestrading.member.vo.AccountOfConsumerRequestVo;
 import com.gift.futurestrading.member.vo.ConsumerMypageVo;
 import com.gift.futurestrading.member.vo.ConsumerRequestVo;
 import com.gift.futurestrading.member.vo.ConsumerSignDetailVo;
+import com.gift.futurestrading.member.vo.InformationOfConsumerAccountVo;
 import com.gift.futurestrading.page.vo.Criteria;
 
 @Service
 public class ConsumerService {
 	@Autowired
 	private ConsumerMapper consumerMapper;
+	
+	/**
+	 * 계좌번호 정보를 조회하기위한 mapper 계층의 메서드 호출
+	 * 
+	 * @param consumerId
+	 * @return resultValue
+	 * @since JDK1.8
+	 */
+	public List<InformationOfConsumerAccountVo> getInformationOfAccount(String consumerId) {
+		System.out.println("ConsumerService.getInformationOfAccount() 호출");
+		/* 계좌번호 정보를 조회하기위한 mapper 계층의 메서드 호출 */
+		List<InformationOfConsumerAccountVo> resultValue = new ArrayList<>();
+		resultValue = consumerMapper.selectInformationOfAccount(consumerId);
+		System.out.println(resultValue + " <---resultValue");
+		
+		return resultValue;
+	}
 	
 	/**
 	 * 구매자 체결내역 검색 결과 전체 행을 구하는 메서드 호출
@@ -27,7 +46,7 @@ public class ConsumerService {
 	 * @since JDK1.8
 	 */
 	public int getSignSearchCount(HashMap<String, Object> map) {
-		System.out.println("SampleService.getSignSearchCount() 호출");
+		System.out.println("ConsumerService.getSignSearchCount() 호출");
 		int totalCount = consumerMapper.selectSearchCount(map);
 		return totalCount;
 	}

@@ -22,6 +22,7 @@ import com.gift.futurestrading.member.vo.AccountOfConsumerRequestVo;
 import com.gift.futurestrading.member.vo.ConsumerMypageVo;
 import com.gift.futurestrading.member.vo.ConsumerRequestVo;
 import com.gift.futurestrading.member.vo.ConsumerSignDetailVo;
+import com.gift.futurestrading.member.vo.InformationOfConsumerAccountVo;
 import com.gift.futurestrading.page.vo.Criteria;
 import com.gift.futurestrading.page.vo.PageMaker;
 
@@ -30,6 +31,13 @@ public class ConsumerController {
 	@Autowired
 	private ConsumerService consumerService;
 	
+	/**
+	 * 해당 url로 요청이 들어왔을 때, 자산현황 뷰로 랜더링 해준다.
+	 * 
+	 * @param session, model
+	 * @return member/consumer/getMemberConsumerWalletProperty
+	 * @since JDK1.8
+	 */
 	@RequestMapping(value="/consumer/mywallet/property", method=RequestMethod.GET)
 	public String ConsumerMyWalletProperty(HttpSession session, Model model) {
 		System.out.println("ConsumerController.ConsumerMyWlletProperty() 호출");
@@ -263,13 +271,34 @@ public class ConsumerController {
 	@RequestMapping(value="/consumer/mypage", method=RequestMethod.GET)
 	public String consumerMypage(HttpSession session, Model model) {
 		System.out.println("ConsumerController.getConsumerMypage() 호출");
-		String returnView = null;
-		if(session.getAttribute("sessionLoginMember")==null) {
-			returnView = "index";
-		}else {
-			returnView = "member/consumer/getMemberConsumerMypage";
-		}
 		
+		/* 리턴값을 저장할 변수 선언 */
+		String returnView = null;
+		
+		if(session.getAttribute("sessionLoginMember")==null) {		// 세션 없을 때
+			returnView = "index";
+		} else {		// 세션 있을 때
+			
+			String consumerId = (String)session.getAttribute("sessionLoginId");
+			System.out.println(consumerId + " <---consumerId");
+			
+			/* 계좌번호 정보를 조회하기위한 service 계층의 메서드 호출 */
+			List<InformationOfConsumerAccountVo> returnValue = consumerService.getInformationOfAccount(consumerId);
+			System.out.println(returnValue + " <---returnValue");
+			
+			if(returnValue.size() == 1) {		// 계좌번호 정보를 select 해와서 계좌정보가 있다면 그 해당 계좌정보를 출력해주는 뷰로
+				System.out.println("1. 계좌번호 정보를 select 해와서 계좌정보가 있다면 그 해당 계좌정보를 출력");
+				/* list에 있는 InformationOfConsumerAccountVo를 뽑아서 변수에 담기 */
+				InformationOfConsumerAccountVo informationOfConsumerAccount = returnValue.get(0);
+				
+				/* 뷰에 모델 보내기 */
+				model.addAttribute("informationOfConsumerAccount", informationOfConsumerAccount);
+				returnView = "member/consumer/getMemberConsumerMypage";		
+			} else {	// 계좌번호 정보를 select 해와서 계좌정보가 없다면 계좌등록 폼으로 랜더링
+				System.out.println("2. 계좌번호 정보를 select 해와서 계좌정보가 없다면 계좌등록 폼으로 랜더링");		
+				returnView = "member/consumer/getMemberConsumerMypage";			
+			}
+		}
 		model.addAttribute("sessionLogin", session.getAttribute("sessionLoginMember"));
 		return returnView;
 	}

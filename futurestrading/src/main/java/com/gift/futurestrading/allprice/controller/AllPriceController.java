@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -57,7 +58,7 @@ public class AllPriceController {
 	 * 
 	 * @since JDK1.8
 	 */
-	//@Scheduled(cron = "0 0/60 9-16 * * *" )
+	//@Scheduled(cron = "0 0/60 10-11 * * *" )
 	//@Scheduled(fixedDelay = 5000)
 	public void addAllPrice() {
 		System.out.println("AllPriceController.addAllPrice()호출");

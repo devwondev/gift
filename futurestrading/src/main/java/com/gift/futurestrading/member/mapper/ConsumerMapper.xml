@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.gift.futurestrading.member.mapper.ConsumerMapper">
+
+	<!-- 특정 구매자의 계좌정보를 조회하는 select -->
+	<select id="selectInformationOfAccount" resultType="com.gift.futurestrading.member.vo.InformationOfConsumerAccountVo">
+		SELECT
+			fk_consumer__account_consumer AS fkConsumerAccountConsumer
+			, account_consumer_name AS accountConsumerName
+			, account_consumer_account_no AS accountConsumerAccountNo
+			, account_consumer_bank_name AS accountConsumerBankName
+			, account_consumer_sign_up_date AS accountConsumerSignUpDate
+		FROM
+			account_consumer
+		WHERE
+			fk_consumer__account_consumer=#{consumerId}
+	
+	</select>
+
 	<!-- 구매자 체결 검색 결과 행을 구하기위한 select -->
 	<select id="selectSearchCount" parameterType="map" resultType="int">
 		SELECT COUNT(*) FROM sign

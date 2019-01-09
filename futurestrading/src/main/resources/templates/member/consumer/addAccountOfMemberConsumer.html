@@ -5,11 +5,12 @@
 <div th:fragment="mypage-content-account">
 	<div class="container">
 		<div class="page-header">
-			<h1 class="title">
+			<h2>
 				구매자 계좌인증
-			</h1>
+			</h2>
 		</div>
 		<div>
+		<th:block th:if="${informationOfConsumerAccount} == null">
 			<form th:action="@{/consumer/mywallet/addaccount}" method="post">
 				<div>
 					<input type="hidden" name="fkConsumerAccountConsumer" th:value="${sessionLogin.sessionId}">
@@ -44,6 +45,31 @@
 					</button>
 				</div>		
 			</form>
+		</th:block>
+		<th:block th:unless="${informationOfConsumerAccount} != null"></th:block>
+			<h3>
+				<span th:text="${informationOfConsumerAccount.fkConsumerAccountConsumer}"></span> 님, 계좌가 존재합니다.
+			</h3><br>
+			<div>
+				<table class="table gift-table">
+					<thead>
+						<tr>
+							<th>이름</th>
+							<th>은행명</th>
+							<th>계좌번호</th>
+							<th>계좌등록일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="list : ${informationOfConsumerAccount}">
+							<td th:text="${list.accountConsumerName}"></td>
+							<td th:text="${list.accountConsumerBankName}"></td>
+							<td th:text="${list.accountConsumerAccountNo}"></td>
+							<td th:text="${list.accountConsumerSignUpDate}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </div>

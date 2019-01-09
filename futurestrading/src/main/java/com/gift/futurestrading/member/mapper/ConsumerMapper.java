@@ -8,10 +8,14 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.gift.futurestrading.member.vo.ConsumerMypageVo;
 import com.gift.futurestrading.member.vo.ConsumerSignDetailVo;
+import com.gift.futurestrading.member.vo.InformationOfConsumerAccountVo;
 import com.gift.futurestrading.page.vo.Criteria;
 
 @Mapper
 public interface ConsumerMapper {
+	/* 특정 구매자의 계좌정보를 조회하는 메서드 */
+	List<InformationOfConsumerAccountVo> selectInformationOfAccount(String consumerId);
+	
 	/* 구매자 체결내역 검색 결과 전체행을  select*/
 	int selectSearchCount(HashMap<String, Object> map);
 	
